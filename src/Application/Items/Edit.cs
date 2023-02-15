@@ -46,7 +46,7 @@ public class Edit
 
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if(!result) return Result<Unit>.Failure("Failed to item"); 
+            if(!result) return Result<Unit>.Failure("Failed to update item"); 
 
             //Unit.Value is the same as return nothing as Command don't return anything
             return Result<Unit>.Success(Unit.Value);
