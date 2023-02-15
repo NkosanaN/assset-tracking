@@ -27,10 +27,10 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> EditItem(Guid id, Item item)
+        public async Task<IActionResult> EditItem(Guid id, Item item)
         {
             item.Id = id;
-            return Ok(await Mediator.Send(new Edit.Command { Item = item }));
+            return HandlerResult(await Mediator.Send(new Edit.Command { Item = item }));
         }
 
         [HttpDelete("{id}")]
