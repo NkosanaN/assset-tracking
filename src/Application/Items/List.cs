@@ -1,17 +1,19 @@
-﻿using MediatR;
+﻿using Application.Core;
+using MediatR;
 using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Application.Items;
 
 public class List
 {
-    public class Query : IRequest<List<Item>>
+    public class Query : IRequest<Result<List<Item>>>
     {
     }
 
-    public class Handler : IRequestHandler<Query, List<Item>>
+    public class Handler : IRequestHandler<Query, Result<List<Item>>>
     {
         private readonly DataContext _context;
 
@@ -20,9 +22,9 @@ public class List
             _context = context;
         }
 
-        public async Task<List<Item>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Result<List<Item>>> Handle(Query request, CancellationToken cancellationToken)
         {
-            return await _context.Items.ToListAsync(cancellationToken);
+            return Result<List<Item>>.Success(await _context.Items.ToListAsync(cancellationToken));
         }
 
     }

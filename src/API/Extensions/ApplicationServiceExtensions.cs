@@ -1,14 +1,17 @@
 ﻿using Application.Core;
 using Application.Items;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Persistence.DbInitializer;
 
 namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, 
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
             IConfiguration config)
         {
             services.AddEndpointsApiExplorer();
@@ -19,16 +22,17 @@ namespace API.Extensions
 
             services.AddCors(opt =>
             {
-                opt.AddPolicy("CorsPolicy", policy =>
-                {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
-                });
+                opt.AddPolicy("CorsPolicy",
+                    policy => { policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000"); });
             });
 
-           services.AddMediatR(typeof(List));
-           services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddMediatR(typeof(List));
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<Create>();
 
-           return services;
+            return services;
         }
     }
 }

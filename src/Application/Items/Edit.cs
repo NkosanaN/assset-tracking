@@ -1,8 +1,9 @@
-﻿using AutoMapper;
+﻿using Application.Core;
+using AutoMapper;
 using MediatR;
 using Domain;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
+using FluentValidation;
 
 namespace Application.Items;
 
@@ -11,12 +12,20 @@ public class Edit
     /*
      * Command don't return any thing
      */
-    public class Command : IRequest
+    public class Command : IRequest<Result<Unit>>
     {
         public Item Item { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command>
+    public class CommandValidator : AbstractValidator<Command>
+    {
+        public CommandValidator()
+        {
+            RuleFor(x => x.Item).SetValidator(new ItemValidator());
+        }
+    }
+
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -27,16 +36,20 @@ public class Edit
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var item = await _context.Items.FindAsync(request.Item.Id);
-            
+
+            if (item is null) return null;
+
             _mapper.Map(request.Item, item);
-         
-            await _context.SaveChangesAsync(cancellationToken);
+
+            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+
+            if(!result) return Result<Unit>.Failure("Failed to item"); 
 
             //Unit.Value is the same as return nothing as Command don't return anything
-            return Unit.Value;
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 

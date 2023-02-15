@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Core;
+using MediatR;
 using Persistence;
 
 namespace Application.Items;
@@ -8,12 +9,12 @@ public class Delete
     /*
      * Command don't return any thing
      */
-    public class Command : IRequest
+    public class Command : IRequest<Result<Unit>>
     {
         public Guid Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command>
+    public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
 
@@ -22,16 +23,20 @@ public class Delete
             _context = context;
         }
 
-        public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var item = await _context.Items.FindAsync(request.Id);
 
+            if (item is null) return null;
+
             _context.Remove(item);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+
+            if (!result) return Result<Unit>.Failure("Failed to delete the Item");
 
             //Unit.Value is the same as return nothing as Command don't return anything
-            return Unit.Value;
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

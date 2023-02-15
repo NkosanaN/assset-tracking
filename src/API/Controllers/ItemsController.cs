@@ -8,37 +8,35 @@ namespace API.Controllers
     [ApiController]
     public class ItemsController : BaseApiController
     {
-        // GET: api/<ItemsController>
         [HttpGet]
-        public async Task<ActionResult<List<Item>>> GetItems()
+        public async Task<IActionResult> GetItems(CancellationToken ct)
         {
-            return await Mediator.Send(new List.Query());
+            return HandlerResult(await Mediator.Send(new List.Query(), ct));
         }
 
-        // GET api/<ItemsController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Item>> GetItem(Guid id)
+        public async Task<IActionResult> GetItem(Guid id)
         {
-            return await Mediator.Send(new Details.Query{ Id = id });
+            return HandlerResult(await Mediator.Send(new Details.Query { Id = id }));
         }
-        
+
         [HttpPost]
-        public async Task<ActionResult> CreateItem(Item item)
+        public async Task<IActionResult> CreateItem(Item item)
         {
-            return Ok(await Mediator.Send(new Create.Command { Item = item }));
+            return HandlerResult(await Mediator.Send(new Create.Command { Item = item }));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> EditItem(Guid id ,Item item)
+        public async Task<ActionResult> EditItem(Guid id, Item item)
         {
             item.Id = id;
             return Ok(await Mediator.Send(new Edit.Command { Item = item }));
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteItem(Guid id)
+        public async Task<IActionResult> DeleteItem(Guid id)
         {
-            return Ok(await Mediator.Send(new Delete.Command { Id = id }));
+            return HandlerResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
     }
 }
