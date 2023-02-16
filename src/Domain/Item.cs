@@ -1,10 +1,13 @@
-﻿namespace Domain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain;
 
 /*
  * This model is design to hold Item 
  *  A)  FK => ShelveType
  *  B)  FK => TrackedItems
  */
+[Table("tblitem")]
 public class Item
 {
     public Guid Id { get; set; }
@@ -17,6 +20,10 @@ public class Item
     public float Qty { get; set; }
     public DateTime DatePurchased { get; set; }
     public ShelveType Shelve { get; set; }
+
+    public ItemImage ItemImage { get; set; } 
+
     public ICollection<ItemTranfer> ItemsTrackings { get; set; } = new List<ItemTranfer>();
+
 
 }

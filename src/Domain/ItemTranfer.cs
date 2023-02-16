@@ -1,5 +1,8 @@
-﻿namespace Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain
 {
+    [Table("tblitemtranfer")]
     public class ItemTranfer
     {
         public string AppUserId { get; set; }
