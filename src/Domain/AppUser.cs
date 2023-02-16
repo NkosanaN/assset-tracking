@@ -8,8 +8,8 @@ namespace Domain
      */
     public class AppUser : IdentityUser
     {
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
 
-        public ICollection<ItemTranfer> ItemTranferHistory { get; set; }
+        public ICollection<ItemTranfer> ItemTranferHistory { get; set; } = new List<ItemTranfer>();
     }
 }

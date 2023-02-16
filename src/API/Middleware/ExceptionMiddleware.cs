@@ -36,7 +36,7 @@ namespace API.Middleware
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; // this will yield 500
 
                 var response = _env.IsDevelopment()
-                    ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace.ToString())
+                    ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
                     : new AppException(context.Response.StatusCode, "Internal Server Error");
 
                 //outside of controller we've to specif Json as the application wont have control here 

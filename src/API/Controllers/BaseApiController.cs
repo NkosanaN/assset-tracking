@@ -13,9 +13,11 @@ namespace API.Controllers
         /*
          * First check whether we've Mediator which is active if not request new Mediator
          */
+#pragma warning disable CS8603 // Possible null reference return.
         protected IMediator Mediator => _mediator ??=
             HttpContext.RequestServices.GetService<IMediator>();
-        
+#pragma warning restore CS8603 // Possible null reference return.
+
         protected IActionResult HandlerResult<T>(Result<T> result)
         {
             if (result is null) return NotFound();

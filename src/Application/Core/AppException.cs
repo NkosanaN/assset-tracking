@@ -6,11 +6,11 @@
      */
     public class AppException
     {
-        public AppException(int statusCode, string message, string details = null)
+        public AppException(int statusCode, string message, string? details = null)
         {
             StatusCode = statusCode;
             Message = message;
-            Details = details;
+            Details = details!;
         }
 
         public int StatusCode { get; set; }
