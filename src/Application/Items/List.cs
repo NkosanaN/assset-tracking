@@ -9,9 +9,7 @@ namespace Application.Items;
 
 public class List
 {
-    public class Query : IRequest<Result<List<Item>>>
-    {
-    }
+    public class Query : IRequest<Result<List<Item>>> { }
 
     public class Handler : IRequestHandler<Query, Result<List<Item>>>
     {

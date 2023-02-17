@@ -1,7 +1,12 @@
-﻿namespace Application.Interfaces
+﻿using Application.UserPhotos;
+using Microsoft.AspNetCore.Http;
+
+namespace Application.Interfaces
 {
-    public interface IUserAccessor
+    public interface IPhotoAccessor
     {
-        string GetUsername();
+        Task<PhotoUploadResult> AddPhoto(IFormFile file);
+        Task<string> DeletePhoto(string publicId);
     }
 }
+   

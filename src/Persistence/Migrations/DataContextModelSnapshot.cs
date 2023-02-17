@@ -91,12 +91,31 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<float>("Cost")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("DatePurchased")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ItemImageId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ItemTag")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Qty")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("Serialno")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Shelve")
@@ -107,10 +126,30 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.HasIndex("ItemImageId");
+
+                    b.ToTable("tblitem");
                 });
 
-            modelBuilder.Entity("Domain.ItemTracking", b =>
+            modelBuilder.Entity("Domain.ItemImage", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblitemimage");
+                });
+
+            modelBuilder.Entity("Domain.ItemTranfer", b =>
                 {
                     b.Property<string>("AppUserId")
                         .HasColumnType("TEXT");
@@ -118,14 +157,40 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ItemId")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("In_Or_Out")
+                    b.Property<bool>("InOut")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("AppUserId", "ItemId");
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemsTrackings");
+                    b.ToTable("tblitemtranfer");
+                });
+
+            modelBuilder.Entity("Domain.UserPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("tbluserphoto");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -256,10 +321,21 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.ItemTracking", b =>
+            modelBuilder.Entity("Domain.Item", b =>
+                {
+                    b.HasOne("Domain.ItemImage", "ItemImage")
+                        .WithMany()
+                        .HasForeignKey("ItemImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ItemImage");
+                });
+
+            modelBuilder.Entity("Domain.ItemTranfer", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
-                        .WithMany("TrackedItems")
+                        .WithMany("ItemTranferHistory")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -273,6 +349,13 @@ namespace Persistence.Migrations
                     b.Navigation("AppUser");
 
                     b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("Domain.UserPhoto", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany("UserPhotos")
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -328,7 +411,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
-                    b.Navigation("TrackedItems");
+                    b.Navigation("ItemTranferHistory");
+
+                    b.Navigation("UserPhotos");
                 });
 
             modelBuilder.Entity("Domain.Item", b =>

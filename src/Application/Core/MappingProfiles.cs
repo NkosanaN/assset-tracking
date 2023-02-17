@@ -13,6 +13,11 @@ namespace Application.Core
         public MappingProfiles()
         {
             CreateMap<Item, Item>();
+
+            CreateMap<AppUser, Profiles.Profile>()
+                .ForMember(d =>
+                    d.Image, o => o.MapFrom(s => 
+                    s.UserPhotos.FirstOrDefault(x => x.IsMain).Url));
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Application.Core;
 using MediatR;
 using Domain;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Items;

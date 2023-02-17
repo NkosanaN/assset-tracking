@@ -12,6 +12,7 @@ public class DataContext : IdentityDbContext<AppUser>
 
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemImage> ItemImages { get; set; }
+    public DbSet<UserPhoto> UserPhotos { get; set; }
     public DbSet<ItemTranfer> ItemsTrackings { get; set; }
 
 

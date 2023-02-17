@@ -40,7 +40,7 @@ public class Edit
         {
             var item = await _context.Items.FindAsync(request.Item.Id);
 
-            if (item is null) return null;
+            if (item is null) return null!;
 
             _mapper.Map(request.Item, item);
 

@@ -27,7 +27,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto login)
         {
-            var user = await _userManager.FindByEmailAsync(login.Email);
+            //var user = await _userManager.FindByEmailAsync(login.Email);
+            var user = await _userManager.Users.Include(p =>
+                p.UserPhotos).FirstOrDefaultAsync(x => x.Email == login.Email);
 
             if (user == null) return Unauthorized();
 
@@ -35,13 +37,7 @@ namespace API.Controllers
             
             if (result)
             {
-                return new UserDto
-                {
-                    DisplayName = user.DisplayName,
-                    Img = null!,
-                    Token = _tokenService.CreateToken(user),
-                    Username = user.UserName!
-                };
+              return CreateUserObject(user);
             }
 
             return Unauthorized();
@@ -81,7 +77,10 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var user = await _userManager.Users
+            //var user = await _userManager.Users
+            //    .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
+
+            var user = await _userManager.Users.Include(p => p.UserPhotos)
                 .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
 
             return CreateUserObject(user!);
@@ -92,10 +91,9 @@ namespace API.Controllers
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                //   Img = user?.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
-                Img = null!,
-                Token = _tokenService.CreateToken(user),
-                Username = user.UserName!
+                Img = user?.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url,
+                Token = _tokenService.CreateToken(user!),
+                Username = user!.UserName!
             };
         }
 

@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Photos;
+using Application.UserPhotos;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
@@ -45,11 +45,18 @@ namespace Infrastructure.Photos
                     Url = uploadResult.SecureUrl.ToString()
                 };
             }
+
+            return null!;
         }
 
-        public Task<string> DeletePhoto(string publicId)
+        public async Task<string> DeletePhoto(string publicId)
         {
-            throw new NotImplementedException();
+            var deleteParam = new DeletionParams(publicId);
+
+            var result = await _cloudinary.DestroyAsync(deleteParam);
+
+            return result.Result == "ok" ? result.Result : null;
+
         }
     }
 }

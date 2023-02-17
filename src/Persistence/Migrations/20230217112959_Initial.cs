@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class addedoveride : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,6 +49,19 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblitemimage",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblitemimage", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,26 +171,73 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemsTrackings",
+                name: "tbluserphoto",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AppUserId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbluserphoto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tbluserphoto_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblitem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Serialno = table.Column<string>(type: "TEXT", nullable: true),
+                    ItemTag = table.Column<string>(type: "TEXT", nullable: true),
+                    Cost = table.Column<float>(type: "REAL", nullable: false),
+                    Qty = table.Column<float>(type: "REAL", nullable: false),
+                    DatePurchased = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Shelve = table.Column<int>(type: "INTEGER", nullable: false),
+                    ItemImageId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblitem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblitem_tblitemimage_ItemImageId",
+                        column: x => x.ItemImageId,
+                        principalTable: "tblitemimage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblitemtranfer",
                 columns: table => new
                 {
                     AppUserId = table.Column<string>(type: "TEXT", nullable: false),
                     ItemId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    InOrOut = table.Column<bool>(name: "In_Or_Out", type: "INTEGER", nullable: false)
+                    InOut = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ItemsTrackings", x => new { x.AppUserId, x.ItemId });
+                    table.PrimaryKey("PK_tblitemtranfer", x => new { x.AppUserId, x.ItemId });
                     table.ForeignKey(
-                        name: "FK_ItemsTrackings_AspNetUsers_AppUserId",
+                        name: "FK_tblitemtranfer_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ItemsTrackings_Items_ItemId",
+                        name: "FK_tblitemtranfer_tblitem_ItemId",
                         column: x => x.ItemId,
-                        principalTable: "Items",
+                        principalTable: "tblitem",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -220,9 +280,19 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemsTrackings_ItemId",
-                table: "ItemsTrackings",
+                name: "IX_tblitem_ItemImageId",
+                table: "tblitem",
+                column: "ItemImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblitemtranfer_ItemId",
+                table: "tblitemtranfer",
                 column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbluserphoto_AppUserId",
+                table: "tbluserphoto",
+                column: "AppUserId");
         }
 
         /// <inheritdoc />
@@ -244,13 +314,22 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ItemsTrackings");
+                name: "tblitemtranfer");
+
+            migrationBuilder.DropTable(
+                name: "tbluserphoto");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "tblitem");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "tblitemimage");
         }
     }
 }
