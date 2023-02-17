@@ -2,9 +2,9 @@
 {
     public class UserDto
     {
-        public string DisplayName { get; set; }
-        public string Token { get; set; }
-        public string Img { get; set; }
-        public string Username { get; set; }
+        public string DisplayName { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
+        public string Img { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
     }
 }

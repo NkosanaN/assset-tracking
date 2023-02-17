@@ -1,4 +1,5 @@
-﻿using Application.Items;
+﻿using Application.Core;
+using Application.Items;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,10 @@ namespace API.Controllers
     public class ItemsController : BaseApiController
     {
         [HttpGet]
-        public async Task<IActionResult> GetItems(CancellationToken ct)
+        public async Task<IActionResult> GetItems([FromQuery]PagingParams param)
         {
-            return HandlerResult(await Mediator.Send(new List.Query(), ct));
+            //return HandlerResult(await Mediator.Send(new List.Query { Params = param }));
+            return HandlerPagedResult(await Mediator.Send(new List.Query { Params = param }));
         }
 
         [HttpGet("{id}")]

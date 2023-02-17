@@ -20,9 +20,7 @@ public class Item
     public float Qty { get; set; }
     public DateTime DatePurchased { get; set; }
     public ShelveType Shelve { get; set; }
-
-    public ItemImage ItemImage { get; set; } 
-
+    public ItemImage ItemImage { get; set; }
     public ICollection<ItemTranfer> ItemsTrackings { get; set; } = new List<ItemTranfer>();
 
 
