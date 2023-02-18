@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.Items;
 using AutoMapper;
 using Domain;
 
@@ -12,7 +8,8 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
-            CreateMap<Item, Item>();
+            CreateMap<Item, Item>(); //this mapper is used for posting & edit   
+            CreateMap<Item, ItemDto>(); //this mapper is used by GetItem to map to ItemDto 
 
             CreateMap<AppUser, Profiles.Profile>()
                 .ForMember(d =>

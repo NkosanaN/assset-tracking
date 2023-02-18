@@ -101,10 +101,6 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ItemImageId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("ItemTag")
                         .HasColumnType("TEXT");
 
@@ -125,8 +121,6 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemImageId");
 
                     b.ToTable("tblitem");
                 });
@@ -321,17 +315,6 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Item", b =>
-                {
-                    b.HasOne("Domain.ItemImage", "ItemImage")
-                        .WithMany()
-                        .HasForeignKey("ItemImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ItemImage");
-                });
-
             modelBuilder.Entity("Domain.ItemTranfer", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
@@ -341,7 +324,7 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Item", "Item")
-                        .WithMany("ItemsTrackings")
+                        .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -414,11 +397,6 @@ namespace Persistence.Migrations
                     b.Navigation("ItemTranferHistory");
 
                     b.Navigation("UserPhotos");
-                });
-
-            modelBuilder.Entity("Domain.Item", b =>
-                {
-                    b.Navigation("ItemsTrackings");
                 });
 #pragma warning restore 612, 618
         }

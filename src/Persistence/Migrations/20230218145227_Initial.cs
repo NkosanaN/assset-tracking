@@ -52,6 +52,26 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tblitem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Serialno = table.Column<string>(type: "TEXT", nullable: true),
+                    ItemTag = table.Column<string>(type: "TEXT", nullable: true),
+                    Cost = table.Column<float>(type: "REAL", nullable: false),
+                    Qty = table.Column<float>(type: "REAL", nullable: false),
+                    DatePurchased = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Shelve = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblitem", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tblitemimage",
                 columns: table => new
                 {
@@ -191,33 +211,6 @@ namespace Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tblitem",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
-                    Serialno = table.Column<string>(type: "TEXT", nullable: true),
-                    ItemTag = table.Column<string>(type: "TEXT", nullable: true),
-                    Cost = table.Column<float>(type: "REAL", nullable: false),
-                    Qty = table.Column<float>(type: "REAL", nullable: false),
-                    DatePurchased = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Shelve = table.Column<int>(type: "INTEGER", nullable: false),
-                    ItemImageId = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblitem", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_tblitem_tblitemimage_ItemImageId",
-                        column: x => x.ItemImageId,
-                        principalTable: "tblitemimage",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "tblitemtranfer",
                 columns: table => new
                 {
@@ -280,11 +273,6 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblitem_ItemImageId",
-                table: "tblitem",
-                column: "ItemImageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tblitemtranfer_ItemId",
                 table: "tblitemtranfer",
                 column: "ItemId");
@@ -314,6 +302,9 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "tblitemimage");
+
+            migrationBuilder.DropTable(
                 name: "tblitemtranfer");
 
             migrationBuilder.DropTable(
@@ -327,9 +318,6 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "tblitemimage");
         }
     }
 }

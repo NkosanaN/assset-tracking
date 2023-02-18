@@ -2,8 +2,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Domain;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Items;
@@ -29,6 +27,7 @@ public class List
         public async Task<Result<PagedList<ItemDto>>> Handle(Query request, CancellationToken cancellationToken)
         {
             var query = _context.Items
+                .OrderBy(d=>d.TimeStamp)
                 .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
                 .AsQueryable();
 
