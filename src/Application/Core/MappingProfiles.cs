@@ -8,8 +8,8 @@ namespace Application.Core
     {
         public MappingProfiles()
         {
-            CreateMap<Item, Item>(); //this mapper is used for posting & edit   
-            CreateMap<Item, ItemDto>(); //this mapper is used by GetItem to map to ItemDto 
+            CreateMap<Item, Item>(); //this map is used for posting & edit   
+            CreateMap<Item, ItemDto>(); //this mapper is used by GetItems to map to ItemDto 
 
             CreateMap<AppUser, Profiles.Profile>()
                 .ForMember(d =>

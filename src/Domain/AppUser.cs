@@ -11,6 +11,6 @@ namespace Domain
         public string DisplayName { get; set; } = string.Empty;
 
         public ICollection<UserPhoto> UserPhotos { get; set; } = new List<UserPhoto>();
-        public ICollection<ItemTranfer> ItemTranferHistory { get; set; } = new List<ItemTranfer>();
+        public ICollection<ItemEmployeeAssignment> ItemEmployeeAssignments { get; set; } = new List<ItemEmployeeAssignment>();
     }
 }

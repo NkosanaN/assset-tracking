@@ -12,14 +12,14 @@ public class DataContext : IdentityDbContext<AppUser>
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemImage> ItemImages { get; set; }
     public DbSet<UserPhoto> UserPhotos { get; set; }
-    public DbSet<ItemTranfer> ItemsTrackings { get; set; }
+    public DbSet<ItemEmployeeAssignment> ItemEmployeeAssignments { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<ItemTranfer>(x => x.HasKey(aa => new { aa.AppUserId, aa.ItemId }));
+        builder.Entity<ItemEmployeeAssignment>(x => x.HasKey(aa => new { aa.AppUserId, aa.ItemId }));
 
         //builder.Entity<ItemTranfer>()
         //    .HasOne(u => u.AppUser)

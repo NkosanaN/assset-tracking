@@ -21,7 +21,4 @@ public class Item
     public DateTime DatePurchased { get; set; }
     public ShelveType Shelve { get; set; }
     //public ItemImage ItemImage { get; set; }
-   // public ICollection<ItemTranfer> ItemsTrackings { get; set; } = new List<ItemTranfer>();
-
-
 }
