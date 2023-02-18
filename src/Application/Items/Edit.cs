@@ -38,28 +38,21 @@ public class Edit
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            try
-            {
-                var item = await _context.Items.FindAsync(request.Item.Id);
+            var item = await _context.Items.FindAsync(request.Item.Id);
 
-                if (item is null) return null!;
+            if (item is null) return null!;
 
-                _mapper.Map(request.Item, item);
+            _mapper.Map(request.Item, item);
+            
+            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-                
-                var result = await _context.SaveChangesAsync() > 0;
+            if (!result) return Result<Unit>.Failure("Failed to update item");
 
-                if (!result) return Result<Unit>.Failure("Failed to update item");
+            //Unit.Value is the same as return nothing as Command don't return anything
+            return Result<Unit>.Success(Unit.Value);
 
-                //Unit.Value is the same as return nothing as Command don't return anything
-                return Result<Unit>.Success(Unit.Value);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+
         }
-    }
 
+    }
 }
