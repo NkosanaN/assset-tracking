@@ -27,7 +27,7 @@ public class Delete
         {
             var item = await _context.Items.FindAsync(request.Id);
 
-            if (item is null) return null;
+            if (item is null) return null!;
 
             _context.Remove(item);
 

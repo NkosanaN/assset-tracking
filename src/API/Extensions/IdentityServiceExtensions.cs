@@ -12,8 +12,9 @@ public static class IdentityServiceExtensions
     public static IServiceCollection AddIdentityService(this IServiceCollection services,
         IConfiguration config)
     {
-        services.AddIdentityCore<AppUser>(opt => { opt.Password.RequireNonAlphanumeric = false; })
-            .AddEntityFrameworkStores<DataContext>();
+        services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<DataContext>();
+
+        //builder.Services.AddScoped<UserManager<ApplicationUser>>();
         //this allows us to query Users in Identity Store
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));

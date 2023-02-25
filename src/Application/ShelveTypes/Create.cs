@@ -1,58 +1,55 @@
 ﻿using Application.Core;
-using AutoMapper;
 using MediatR;
-using Domain;
-using Persistence;
 using FluentValidation;
+using Persistence;
+using Domain;
 
-namespace Application.Items;
+namespace Application.ShelveTypes;
 
-public class Edit
+public class Create
 {
     /*
      * Command don't return any thing
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public Item Item { get; set; }
+        public ShelveType ShelveType { get; set; } = new();
     }
 
     public class CommandValidator : AbstractValidator<Command>
     {
         public CommandValidator()
         {
-            RuleFor(x => x.Item).SetValidator(new ItemValidator());
+            RuleFor(x => x.ShelveType).SetValidator(new ShelveTypeValidator());
         }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly DataContext _context;
-        private readonly IMapper _mapper;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(DataContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var item = await _context.Items.FindAsync(request.Item.ItemId);
+            var model = new ShelveType
+            {
+                ShelfId = Guid.NewGuid(),
+                ShelfTag = request.ShelveType.ShelfTag
+            };
 
-            if (item is null) return null!;
+            _context.ShelveTypes.Add(model);
 
-            _mapper.Map(request.Item, item);
-            
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
-            if (!result) return Result<Unit>.Failure("Failed to update item");
+            if (!result) return Result<Unit>.Failure("Fail to create Shelve Type");
 
-            //Unit.Value is the same as return nothing as Command don't return anything
             return Result<Unit>.Success(Unit.Value);
-
-
         }
 
     }
+
 }

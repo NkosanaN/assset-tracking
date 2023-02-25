@@ -1,15 +1,17 @@
-﻿namespace Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Domain;
 
 /*
- * This Enum is design to hold shelves type
- * usage
- * var b = (ShelveType)1 output => Bots
+ * This Class is design to hold shelves type
  */
-
-public enum ShelveType
+//[Table("tblshelvetype")]
+public class ShelveType
 {
-    Nuts,
-    Bots
+    [Key]
+    public Guid ShelfId { get; set; }
+    public string ShelfTag { get; set;} = string.Empty;
 }
 
 

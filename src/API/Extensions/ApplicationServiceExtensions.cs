@@ -10,36 +10,41 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.DbInitializer;
 
-namespace API.Extensions
+namespace API.Extensions;
+
+public static class ApplicationServiceExtensions
 {
-    public static class ApplicationServiceExtensions
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services,
+        IConfiguration config)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services,
-            IConfiguration config)
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+
+        //services.AddDbContext<DataContext>(opt =>
+        //    opt.UseSqlite(config.GetConnectionString("DefaultConnection"))
+        //);
+
+        services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(config
+                .GetConnectionString("DefaultConnection")));
+
+        services.AddCors(opt =>
         {
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-            services.AddDbContext<DataContext>(opt =>
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection"))
-            );
+            opt.AddPolicy("CorsPolicy",
+                policy => { policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000"); });
+        });
 
-            services.AddCors(opt =>
-            {
-                opt.AddPolicy("CorsPolicy",
-                    policy => { policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000"); });
-            });
+        services.AddScoped<IDbInitializer, DbInitializer>();
+        services.AddMediatR(typeof(List));
+        services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining<Create>();
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserAccessor, UserAccessor>();
+        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+        services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
-            services.AddScoped<IDbInitializer, DbInitializer>();
-            services.AddMediatR(typeof(List));
-            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-            services.AddFluentValidationAutoValidation();
-            services.AddValidatorsFromAssemblyContaining<Create>();
-            services.AddHttpContextAccessor();
-            services.AddScoped<IUserAccessor, UserAccessor>();
-            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
-            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
-
-            return services;
-        }
+        return services;
     }
 }
+

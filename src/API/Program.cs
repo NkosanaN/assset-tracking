@@ -2,7 +2,6 @@ using API.Extensions;
 using API.Middleware;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Persistence.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);

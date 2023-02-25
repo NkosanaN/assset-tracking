@@ -4,7 +4,7 @@ namespace Application.Items
 {
     public class ItemDto
     {
-        public Guid Id { get; set; }
+        public Guid ItemId { get; set; }
         public DateTime TimeStamp { get; set; } = DateTime.Now;
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
