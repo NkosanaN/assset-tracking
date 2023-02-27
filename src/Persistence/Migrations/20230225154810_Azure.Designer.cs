@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230224210912_Add-Stuff")]
-    partial class AddStuff
+    [Migration("20230225154810_Azure")]
+    partial class Azure
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,9 +156,6 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ShelfId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ShelveShelfId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
 
@@ -166,7 +163,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("ShelveShelfId");
+                    b.HasIndex("ShelfId");
 
                     b.ToTable("tblitem");
                 });
@@ -268,7 +265,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DateTransfer")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("ItemId")
+                    b.Property<Guid>("ItemById")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Remarks")
@@ -287,7 +284,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ItemById");
 
                     b.ToTable("tbltransferhistory");
                 });
@@ -459,13 +456,15 @@ namespace Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.ShelveType", "Shelve")
+                    b.HasOne("Domain.ShelveType", "ShelveBy")
                         .WithMany()
-                        .HasForeignKey("ShelveShelfId");
+                        .HasForeignKey("ShelfId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CreatedBy");
 
-                    b.Navigation("Shelve");
+                    b.Navigation("ShelveBy");
                 });
 
             modelBuilder.Entity("Domain.ItemEmployeeAssignment", b =>
@@ -505,7 +504,7 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Item", "Item")
                         .WithMany()
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ItemById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

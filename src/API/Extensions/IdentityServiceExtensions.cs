@@ -17,7 +17,7 @@ public static class IdentityServiceExtensions
         //builder.Services.AddScoped<UserManager<ApplicationUser>>();
         //this allows us to query Users in Identity Store
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]!));
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(opt =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddStuff : Migration
+    public partial class Azure : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -231,7 +231,6 @@ namespace Persistence.Migrations
                     Qty = table.Column<float>(type: "real", nullable: false),
                     DatePurchased = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShelveShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -244,10 +243,11 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tblitem_ShelveTypes_ShelveShelfId",
-                        column: x => x.ShelveShelfId,
+                        name: "FK_tblitem_ShelveTypes_ShelfId",
+                        column: x => x.ShelfId,
                         principalTable: "ShelveTypes",
-                        principalColumn: "ShelfId");
+                        principalColumn: "ShelfId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,7 +296,7 @@ namespace Persistence.Migrations
                     HistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TransferredFrom = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TransferredTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ItemById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     DateTransfer = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Remarks = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -311,8 +311,8 @@ namespace Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tbltransferhistory_tblitem_ItemId",
-                        column: x => x.ItemId,
+                        name: "FK_tbltransferhistory_tblitem_ItemById",
+                        column: x => x.ItemById,
                         principalTable: "tblitem",
                         principalColumn: "ItemId",
                         onDelete: ReferentialAction.NoAction);
@@ -363,9 +363,9 @@ namespace Persistence.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblitem_ShelveShelfId",
+                name: "IX_tblitem_ShelfId",
                 table: "tblitem",
-                column: "ShelveShelfId");
+                column: "ShelfId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblitememployeeassignment_IssuerById",
@@ -388,9 +388,9 @@ namespace Persistence.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbltransferhistory_ItemId",
+                name: "IX_tbltransferhistory_ItemById",
                 table: "tbltransferhistory",
-                column: "ItemId");
+                column: "ItemById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbluserphoto_AppUserId",

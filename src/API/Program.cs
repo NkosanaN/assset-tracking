@@ -24,11 +24,14 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseCors("CorsPolicy");
 
@@ -54,9 +57,9 @@ app.MapControllers();
 
 app.Run();
 
-void SeedDatabase()
-{
-    using var scope = app!.Services.CreateScope();
-    var services = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-    services.Initialize();
-}
+//void SeedDatabase()
+//{
+//    using var scope = app!.Services.CreateScope();
+//    var services = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+//    services.Initialize();
+//}

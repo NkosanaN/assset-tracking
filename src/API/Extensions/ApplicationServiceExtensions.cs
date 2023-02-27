@@ -7,6 +7,7 @@ using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.DbInitializer;
 
@@ -18,7 +19,10 @@ public static class ApplicationServiceExtensions
         IConfiguration config)
     {
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Asset-Tracking API", Version = "v1" });
+        });
 
         //services.AddDbContext<DataContext>(opt =>
         //    opt.UseSqlite(config.GetConnectionString("DefaultConnection"))
@@ -31,7 +35,13 @@ public static class ApplicationServiceExtensions
         services.AddCors(opt =>
         {
             opt.AddPolicy("CorsPolicy",
-                policy => { policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000"); });
+                policy =>
+                {
+                    policy
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:3000");
+                });
         });
 
         services.AddScoped<IDbInitializer, DbInitializer>();

@@ -2,11 +2,8 @@
 using Application.ItemEmployeeAssignments.Contracts;
 using AutoMapper;
 using Domain;
-using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
-using System.ComponentModel.DataAnnotations;
 
 namespace Application.ItemEmployeeAssignments;
 
@@ -22,8 +19,7 @@ public class Create
     //https://referbruv.com/blog/working-with-stored-procedures-in-aspnet-core-ef-core/
     //http://www.binaryintellect.net/articles/8304a21d-1711-426c-9791-90fc17cd3331.aspx
     public class Command : IRequest<Result<Unit>>
-    {
-        public ItemEmployeeAssignmentRequest ItemEmployeeAssignment { get; set; }
+    { public ItemEmployeeAssignmentRequest ItemEmployeeAssignment { get; set; }
     }
 
     //public class CommandValidator : AbstractValidator<Command>
