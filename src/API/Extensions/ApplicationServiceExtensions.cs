@@ -32,17 +32,18 @@ public static class ApplicationServiceExtensions
             options.UseSqlServer(config
                 .GetConnectionString("DefaultConnection")));
 
-        services.AddCors(opt =>
-        {
-            opt.AddPolicy("CorsPolicy",
-                policy =>
-                {
-                    policy
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .WithOrigins("http://localhost:3000");
-                });
-        });
+        //services.AddCors(opt =>
+        //{
+        //    opt.AddPolicy("CorsPolicy",
+        //        policy =>
+        //        {
+        //            policy
+        //                .AllowAnyMethod()
+        //                .AllowAnyHeader()
+        //                .AllowCredentials()
+        //                .WithOrigins("http://localhost:3000");
+        //        });
+        //});
 
         services.AddScoped<IDbInitializer, DbInitializer>();
         services.AddMediatR(typeof(List));
