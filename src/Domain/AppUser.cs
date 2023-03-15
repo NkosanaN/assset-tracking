@@ -12,6 +12,7 @@ namespace Domain
         public string DisplayName { get; set; } = string.Empty;
         public string? AddressLine1 { get; set; } 
         public string? AddressLine2 { get; set; }
+      //  public Guid ActivationCode { get; set; }
         public ICollection<UserPhoto> UserPhotos { get; set; } = new List<UserPhoto>();
 
         //[InverseProperty("Issuer")]

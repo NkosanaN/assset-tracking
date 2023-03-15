@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class Azure : Migration
+    public partial class PostgresInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +16,10 @@ namespace Persistence.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -29,24 +30,24 @@ namespace Persistence.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: false),
+                    AddressLine1 = table.Column<string>(type: "text", nullable: true),
+                    AddressLine2 = table.Column<string>(type: "text", nullable: true),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,8 +58,8 @@ namespace Persistence.Migrations
                 name: "ShelveTypes",
                 columns: table => new
                 {
-                    ShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ShelfTag = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ShelfId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ShelfTag = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,9 +70,9 @@ namespace Persistence.Migrations
                 name: "tbldepartment",
                 columns: table => new
                 {
-                    DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DepartmentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DepartmentName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,9 +83,9 @@ namespace Persistence.Migrations
                 name: "tblitemimage",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,11 +96,11 @@ namespace Persistence.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -116,11 +117,11 @@ namespace Persistence.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,10 +138,10 @@ namespace Persistence.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,8 +158,8 @@ namespace Persistence.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,10 +182,10 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,11 +202,11 @@ namespace Persistence.Migrations
                 name: "tbluserphoto",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsMain = table.Column<bool>(type: "bit", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    IsMain = table.Column<bool>(type: "boolean", nullable: false),
+                    AppUserId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,17 +222,17 @@ namespace Persistence.Migrations
                 name: "tblitem",
                 columns: table => new
                 {
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Serialno = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ItemTag = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Serialno = table.Column<string>(type: "text", nullable: false),
+                    TimeStamp = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ItemTag = table.Column<string>(type: "text", nullable: true),
                     Cost = table.Column<float>(type: "real", nullable: false),
                     Qty = table.Column<float>(type: "real", nullable: false),
-                    DatePurchased = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    DatePurchased = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ShelfId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedById = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -254,17 +255,17 @@ namespace Persistence.Migrations
                 name: "tblitememployeeassignment",
                 columns: table => new
                 {
-                    AssigmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IssuerById = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ReceiverById = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateTaken = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IssueSignature = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReceiverSignature = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateReturned = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Condition = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ReasonForNotReturn = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsReturned = table.Column<bool>(type: "bit", nullable: false)
+                    AssigmentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IssuerById = table.Column<string>(type: "text", nullable: false),
+                    ReceiverById = table.Column<string>(type: "text", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateTaken = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IssueSignature = table.Column<string>(type: "text", nullable: false),
+                    ReceiverSignature = table.Column<string>(type: "text", nullable: false),
+                    DateReturned = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Condition = table.Column<string>(type: "text", nullable: true),
+                    ReasonForNotReturn = table.Column<string>(type: "text", nullable: true),
+                    IsReturned = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,13 +275,13 @@ namespace Persistence.Migrations
                         column: x => x.IssuerById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblitememployeeassignment_AspNetUsers_ReceiverById",
                         column: x => x.ReceiverById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblitememployeeassignment_tblitem_ItemId",
                         column: x => x.ItemId,
@@ -293,13 +294,13 @@ namespace Persistence.Migrations
                 name: "tbltransferhistory",
                 columns: table => new
                 {
-                    HistoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TransferredFrom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TransferredTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ItemById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DateTransfer = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Remarks = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    HistoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TransferredFrom = table.Column<string>(type: "text", nullable: false),
+                    TransferredTo = table.Column<string>(type: "text", nullable: false),
+                    ItemById = table.Column<Guid>(type: "uuid", nullable: false),
+                    DateTransfer = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Remarks = table.Column<string>(type: "text", nullable: false),
+                    CreatedById = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -315,7 +316,7 @@ namespace Persistence.Migrations
                         column: x => x.ItemById,
                         principalTable: "tblitem",
                         principalColumn: "ItemId",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -327,8 +328,7 @@ namespace Persistence.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -354,8 +354,7 @@ namespace Persistence.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblitem_CreatedById",

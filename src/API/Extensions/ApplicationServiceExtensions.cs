@@ -1,4 +1,5 @@
-﻿using Application.Core;
+﻿using API.Services;
+using Application.Core;
 using Application.Interfaces;
 using Application.Items;
 using FluentValidation;
@@ -6,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -29,7 +31,7 @@ public static class ApplicationServiceExtensions
         //);
 
         services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(config
+            options.UseNpgsql(config
                 .GetConnectionString("DefaultConnection")));
 
         //services.AddCors(opt =>
@@ -53,7 +55,11 @@ public static class ApplicationServiceExtensions
         services.AddHttpContextAccessor();
         services.AddScoped<IUserAccessor, UserAccessor>();
         services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+        //services.AddScoped<IEmailSender, EmailSender>();
         services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+
+        //services.AddSingleton(new EmailService("smtp.example.com", 587, "username", "password"));
+  
 
         return services;
     }

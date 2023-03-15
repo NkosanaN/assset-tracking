@@ -16,7 +16,7 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager,TokenService tokenService)
+        public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -31,11 +31,11 @@ namespace API.Controllers
 
             if (user == null) return Unauthorized();
 
-            var result = await _userManager.CheckPasswordAsync(user,login.Password);
-            
+            var result = await _userManager.CheckPasswordAsync(user, login.Password);
+
             if (result)
             {
-              return CreateUserObject(user);
+                return CreateUserObject(user);
             }
 
             return Unauthorized();
@@ -44,9 +44,9 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await _userManager.Users.AnyAsync(x=>x.UserName == registerDto.Username))
+            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
             {
-                ModelState.AddModelError("username","Username taken");
+                ModelState.AddModelError("username", "Username taken");
                 return BadRequest("Username taken");
             }
             if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
@@ -70,7 +70,7 @@ namespace API.Controllers
             {
                 return CreateUserObject(user);
             }
-            
+
             return BadRequest(result.Errors);
         }
         [Authorize]
