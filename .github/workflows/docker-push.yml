@@ -1,8 +1,7 @@
 name: docker-push
 
 on:
-  workflow_dispatch: 
-
+  workflow_dispatch:
   # push:
   #   branches:
   #     - 'main'
@@ -25,4 +24,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: asset-tracking/assetmanagement:latest
+          tags: nkosanan/assettracking:latest

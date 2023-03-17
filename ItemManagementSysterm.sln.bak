@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\Persistence\Persistence.csproj", "{1253B613-C7C2-42B4-8ECA-950A88822DEB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementSystem.T1.Tests", "test\T1\ItemManagementSystem.T1.Tests\ItemManagementSystem.T1.Tests.csproj", "{227CF742-BE8A-4018-864C-848849D9BBB6}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{695334F3-F3E1-4205-B03F-D3A851D4F447}"
 EndProject
 Global
