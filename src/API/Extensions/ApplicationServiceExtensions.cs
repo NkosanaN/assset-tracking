@@ -36,7 +36,7 @@ public static class ApplicationServiceExtensions
 
             string connStr;
 
-            // Depending on if in development or production, use either Heroku-provided
+            // Depending on if in development or production, use either flyio
             // connection string, or development connection string from env var.
             if (env == "Development")
             {
@@ -45,7 +45,7 @@ public static class ApplicationServiceExtensions
             }
             else
             {
-                // Use connection string provided at runtime by Heroku.
+                // Use connection string provided at runtime by flyio.
                 var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
                 // Parse connection URL to connection string for Npgsql

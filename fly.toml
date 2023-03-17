@@ -1,19 +1,18 @@
-# fly.toml file generated for assettrackingsys on 2023-03-17T14:31:22+02:00
+# fly.toml file generated for assettrackingapi on 2023-03-17T20:37:49+02:00
 
-app = "assettrackingsys"
+app = "assettrackingapi"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "jnb"
 processes = []
 
 [build]
-  image = "nkasanan/assettracking:latest"
+  image = "nkosanan/itrack:latest"
 
 [env]
   ASPNETCORE_URLS="http://+:8080"
   Cloudinary__CloudName="duukn3tyh"
   Cloudinary__ApiKey="327627334942552"
-  
 
 [experimental]
   auto_rollback = true
