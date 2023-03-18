@@ -27,7 +27,7 @@ public static class ApplicationServiceExtensions
         });
 
         //services.AddDbContext<DataContext>(opt =>
-        //    opt.UseSqlite(config.GetConnectionString("DefaultConnection"))
+        //    opt.UseNpgsql(config.GetConnectionString("DefaultConnection"))
         //);
 
         services.AddDbContext<DataContext>(options =>
@@ -67,18 +67,18 @@ public static class ApplicationServiceExtensions
             options.UseNpgsql(connStr);
         });
 
-        //services.AddCors(opt =>
-        //{
-        //    opt.AddPolicy("CorsPolicy",
-        //        policy =>
-        //        {
-        //            policy
-        //                .AllowAnyMethod()
-        //                .AllowAnyHeader()
-        //                .AllowCredentials()
-        //                .WithOrigins("http://localhost:3000");
-        //        });
-        //});
+        services.AddCors(opt =>
+        {
+            opt.AddPolicy("CorsPolicy",
+                policy =>
+                {
+                    policy
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
+                });
+        });
 
         services.AddScoped<IDbInitializer, DbInitializer>();
         services.AddMediatR(typeof(List));
