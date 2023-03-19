@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.DbInitializer;
+using System.Diagnostics;
 
 namespace API.Extensions;
 
@@ -59,11 +60,13 @@ public static class ApplicationServiceExtensions
                 var pgHost = pgHostPort.Split(":")[0];
                 var pgPort = pgHostPort.Split(":")[1];
 
-                connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
+                //connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
+                connStr = $"postges://{pgUser}:{pgPass}@{pgHost}:{pgPort}/{pgDb}?options";
             }
 
             // Whether the connection string came from the local development configuration file
             // or from the environment variable from Heroku, use it to set up your DbContext.
+            Debug.WriteLine($"{connStr}");
             options.UseNpgsql(connStr);
         });
 
