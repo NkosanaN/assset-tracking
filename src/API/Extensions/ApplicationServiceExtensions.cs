@@ -27,48 +27,48 @@ public static class ApplicationServiceExtensions
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Asset-Tracking API", Version = "v1" });
         });
 
-        // services.AddDbContext<DataContext>(opt =>
-        //    opt.UseNpgsql(config.GetConnectionString("DefaultConnection"))
-        // );
+        services.AddDbContext<DataContext>(opt =>
+           opt.UseNpgsql(config.GetConnectionString("FlyIoDbConnection"))
+        );
 
-        services.AddDbContext<DataContext>(options =>
-        {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        //services.AddDbContext<DataContext>(options =>
+        //{
+        //    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-            string connStr;
+        //    string connStr;
 
-            // Depending on if in development or production, use either flyio
-            // connection string, or development connection string from env var.
-            if (env == "Development")
-            {
-               // Use connection string from file.
-               connStr = config.GetConnectionString("DefaultConnection");
-            }
-            else
-            {
-                // Use connection string provided at runtime by flyio.
-                var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+        //    // Depending on if in development or production, use either flyio
+        //    // connection string, or development connection string from env var.
+        //    if (env == "Development")
+        //    {
+        //       // Use connection string from file.
+        //       connStr = config.GetConnectionString("DefaultConnection");
+        //    }
+        //    else
+        //    {
+        //        // Use connection string provided at runtime by flyio.
+        //        var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-                // Parse connection URL to connection string for Npgsql
-                connUrl = connUrl.Replace("postgres://", string.Empty);
-                var pgUserPass = connUrl.Split("@")[0];
-                var pgHostPortDb = connUrl.Split("@")[1];
-                var pgHostPort = pgHostPortDb.Split("/")[0];
-                var pgDb = pgHostPortDb.Split("/")[1];
-                var pgUser = pgUserPass.Split(":")[0];
-                var pgPass = pgUserPass.Split(":")[1];
-                var pgHost = pgHostPort.Split(":")[0];
-                var pgPort = pgHostPort.Split(":")[1];
+        //        // Parse connection URL to connection string for Npgsql
+        //        connUrl = connUrl.Replace("postgres://", string.Empty);
+        //        var pgUserPass = connUrl.Split("@")[0];
+        //        var pgHostPortDb = connUrl.Split("@")[1];
+        //        var pgHostPort = pgHostPortDb.Split("/")[0];
+        //        var pgDb = pgHostPortDb.Split("/")[1];
+        //        var pgUser = pgUserPass.Split(":")[0];
+        //        var pgPass = pgUserPass.Split(":")[1];
+        //        var pgHost = pgHostPort.Split(":")[0];
+        //        var pgPort = pgHostPort.Split(":")[1];
 
-                //connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
-                connStr = $"postges://{pgUser}:{pgPass}@{pgHost}:{pgPort}/{pgDb}?options";
-            }
+        //        //connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
+        //        connStr = $"postges://{pgUser}:{pgPass}@{pgHost}:{pgPort}/{pgDb}?options";
+        //    }
 
-            // Whether the connection string came from the local development configuration file
-            // or from the environment variable from Heroku, use it to set up your DbContext.
-            Debug.WriteLine($"{connStr}");
-            options.UseNpgsql(connStr);
-        });
+        //    // Whether the connection string came from the local development configuration file
+        //    // or from the environment variable from Heroku, use it to set up your DbContext.
+        //    Debug.WriteLine($"{connStr}");
+        //    options.UseNpgsql(connStr);
+        //});
 
         services.AddCors(opt =>
         {
