@@ -1,5 +1,4 @@
-﻿using Application.ItemEmployeeAssignments;
-using Application.ItemEmployeeAssignments.Contracts;
+﻿using Application.ItemEmployeeAssignments.Contracts;
 using Application.Items;
 using AutoMapper;
 using Domain;
