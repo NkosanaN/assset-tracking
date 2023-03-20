@@ -25,7 +25,7 @@ jobs:
         with:
           push: true
           tags: nkosanan/itrack:latest
-  docker:
+  doploy:
     needs: docker
     name : Deploy app
     runs-on : ubuntu-latest
