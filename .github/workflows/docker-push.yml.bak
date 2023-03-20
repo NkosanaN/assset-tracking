@@ -24,4 +24,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: nkosanan/itrack:latest
+          tags: nkosanan/assettracking:latest
