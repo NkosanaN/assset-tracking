@@ -2,9 +2,9 @@ name: docker-push
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - 'main'
+  push:
+    branches:
+      - 'main'
 
 jobs:
   docker:
@@ -25,3 +25,17 @@ jobs:
         with:
           push: true
           tags: nkosanan/itrack:latest
+  docker:
+    needs: docker
+    name : Deploy app
+    runs-on : ubuntu-latest
+    steps:
+      - uses : actions/checkout@v3
+      - uses : superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      
+      
+    
+    
