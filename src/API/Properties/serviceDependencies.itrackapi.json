@@ -1,8 +1,6 @@
 {
   "dependencies": {
     "mssql1": {
-      "secretStore": null,
-      "type": "mssql.onprem",
       "connectionId": "ConnectionStrings:DefaultConnection",
       "dynamicId": null
     }
