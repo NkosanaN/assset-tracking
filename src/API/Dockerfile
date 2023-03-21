@@ -7,14 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["ItemManagementSysterm.sln", "ItemManagementSysterm.sln"]
 COPY ["API/API.csproj", "API/API.csproj"]
 COPY ["Application/Application.csproj", "Application/Application.csproj"]
 COPY ["Domain/Domain.csproj", "Domain/Domain.csproj"]
 COPY ["Persistence/Persistence.csproj", "Persistence/Persistence.csproj"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/Infrastructure.csproj"]
 
-RUN dotnet restore "ItemManagementSysterm.sln"
+RUN dotnet restore "API.csproj"
 COPY . .
 WORKDIR "/src/API"
 RUN dotnet build "API.csproj" -c Release -o /app/build
