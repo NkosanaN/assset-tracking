@@ -27,9 +27,9 @@ public static class ApplicationServiceExtensions
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Asset-Tracking API", Version = "v1" });
         });
 
-        //services.AddDbContext<DataContext>(opt =>
-        //   opt.UseNpgsql(config.GetConnectionString("FlyIoDbConnection"))
-        //);
+        services.AddDbContext<DataContext>(opt =>
+           opt.UseSqlServer(config.GetConnectionString("DefaultConnection"))
+        );
 
         //services.AddDbContext<DataContext>(options =>
         //{
