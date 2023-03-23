@@ -31,6 +31,7 @@ public static class ApplicationServiceExtensions
            opt.UseSqlServer(config.GetConnectionString("DefaultConnection"))
         );
 
+        #region PostGres
         //services.AddDbContext<DataContext>(options =>
         //{
         //    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
@@ -69,6 +70,7 @@ public static class ApplicationServiceExtensions
         //    Debug.WriteLine($"{connStr}");
         //    options.UseNpgsql(connStr);
         //});
+        #endregion
 
         services.AddCors(opt =>
         {

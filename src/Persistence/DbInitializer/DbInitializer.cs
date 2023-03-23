@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Persistence.DbInitializer
-{
+namespace Persistence.DbInitializer;
+
     public class DbInitializer : IDbInitializer
     {
         private readonly DataContext _db;
@@ -11,10 +11,19 @@ namespace Persistence.DbInitializer
         }
         public void Initialize()
         {
-            if (_db.Database.GetPendingMigrations().Any())
+            try
             {
-                _db.Database.Migrate();
+                if (_db.Database.GetPendingMigrations().Any())
+                {
+                    _db.Database.Migrate();
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+          return;
         }
     }
-}
+

@@ -38,12 +38,12 @@ app.UseSwaggerUI();
 app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
+SeedDatabase();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
-//SeedDatabase();
+
 
 
 //try
@@ -53,15 +53,15 @@ app.MapControllers();
 //}
 //catch (Exception ex)
 //{
-//    var  logger = services.GetRequiredService<ILogger<Program>>();
-//    logger.LogError(ex,"Error occur during migration");
+//    var logger = services.GetRequiredService<ILogger<Program>>();
+//    logger.LogError(ex, "Error occur during migration");
 //}
 
 app.Run();
 
-//void SeedDatabase()
-//{
-//    using var scope = app!.Services.CreateScope();
-//    var services = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
-//    services.Initialize();
-//}
+void SeedDatabase()
+{
+    using var scope = app!.Services.CreateScope();
+    var services = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+    services.Initialize();
+}
