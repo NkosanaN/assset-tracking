@@ -11,7 +11,7 @@ namespace API.Middleware
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly IHostEnvironment _env;
 
-        public ExceptionMiddleware(RequestDelegate next , ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
         {
             _next = next;
             _logger = logger;
@@ -31,24 +31,28 @@ namespace API.Middleware
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; // this will yield 500
-
-                var response = _env.IsDevelopment()
-                    ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
-                    : new AppException(context.Response.StatusCode, "Internal Server Error");
-
-                //outside of controller we've to specif Json as the application wont have control here 
-                var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
-                var json = JsonSerializer.Serialize(response, options);
-
-                await context.Response.WriteAsync(json);
-
+                await HandleException(context, ex);
                 //test this by deleting user which doesn't exist 
-
             }
+        }
+
+        private async Task HandleException(HttpContext context, Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+
+            var response = _env.IsDevelopment()
+                ? new AppException(context.Response.StatusCode, ex.Message, ex.StackTrace?.ToString())
+                : new AppException(context.Response.StatusCode, "Internal Server Error");
+
+            //outside of controller we've to specif Json as the application wont have control here 
+            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError; // this will yield 500
+
+            var json = JsonSerializer.Serialize(response, options);
+
+            await context.Response.WriteAsync(json);
         }
 
     }

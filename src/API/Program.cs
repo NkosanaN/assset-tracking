@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.DbInitializer;
 using System.Configuration;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +22,19 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityService(builder.Configuration);
 
-var app = builder.Build();
+//var _logger = new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).Enrich.FromLogContext().CreateLogger();
+//builder.Logging.ClearProviders();
+//builder.Logging.AddSerilog(_logger);
 
+var _logger = new LoggerConfiguration().CreateBootstrapLogger();
+builder.Host.UseSerilog(((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration)));
+
+
+
+var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -42,20 +53,7 @@ SeedDatabase();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
-
-
-
-//try
-//{
-//    var context = services.GetRequiredService<DbContext>();
-//    await context.Database.MigrateAsync();
-//}
-//catch (Exception ex)
-//{
-//    var logger = services.GetRequiredService<ILogger<Program>>();
-//    logger.LogError(ex, "Error occur during migration");
-//}
+app.UseSerilogRequestLogging();
 
 app.Run();
 

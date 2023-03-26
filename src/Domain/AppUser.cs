@@ -10,7 +10,7 @@ namespace Domain
     public class AppUser : IdentityUser
     {
         public string DisplayName { get; set; } = string.Empty;
-        public string? AddressLine1 { get; set; } 
+        public string? AddressLine1 { get; set; } = string.Empty;
         public string? AddressLine2 { get; set; }
       //  public Guid ActivationCode { get; set; }
         public ICollection<UserPhoto> UserPhotos { get; set; } = new List<UserPhoto>();

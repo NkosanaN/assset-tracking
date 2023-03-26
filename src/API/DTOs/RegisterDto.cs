@@ -18,7 +18,6 @@ namespace API.DTOs
         [Required]
         public string Username { get; set; } = string.Empty;
 
-        [Required]
         public string AddressLine1 { get; set; } = string.Empty;
     }
 }
