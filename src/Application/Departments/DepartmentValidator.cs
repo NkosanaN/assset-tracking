@@ -9,6 +9,5 @@ public class DepartmentValidator : AbstractValidator<DepartmentRequest>
     {
         RuleFor(x => x.Description).NotEmpty().MinimumLength(5).MaximumLength(50);
         RuleFor(x => x.DepartmentName).NotEmpty().MinimumLength(5).MaximumLength(50);
-  
     }
 }

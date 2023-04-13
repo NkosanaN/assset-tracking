@@ -16,7 +16,7 @@ public class DataContext : IdentityDbContext<AppUser>
     public DbSet<ShelveType> ShelveTypes { get; set; }
     public DbSet<Transferhistory> TransferHistory { get; set; }
     public DbSet<Department> Departments { get; set; }
-
+    public DbSet<Supplier> Suppliers { get; set; }
 
     #region OnModelCreating
     //protected override void OnModelCreating(ModelBuilder builder)
@@ -39,5 +39,4 @@ public class DataContext : IdentityDbContext<AppUser>
     //    //    .HasForeignKey(aa => aa.ItemId);
     //}
     #endregion
-
 }

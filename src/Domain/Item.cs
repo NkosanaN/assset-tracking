@@ -17,9 +17,10 @@ public class Item
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string? ItemTag { get; set; }
-    public float Cost { get; set; } = 0.00f;
+    public float Cost { get; set; } = 0.00f;//should be uniqueCost
     public float Qty { get; set; } = 0.00f;
     public DateTime DatePurchased { get; set; }
+    public bool DueforRepair { get; set; } //must update the database
 
     [ForeignKey("ShelveBy")]
     public Guid ShelfId { get; set; }

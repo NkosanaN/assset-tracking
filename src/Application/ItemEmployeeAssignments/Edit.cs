@@ -58,7 +58,7 @@ public class Edit
             itemtransfer.DateReturned = /*request.ItemEmployeeAssignment.DateReturned*/ DateTime.Now;
             itemtransfer.Condition = request.ItemEmployeeAssignment.Condition;
             itemtransfer.ReasonForNotReturn = request.ItemEmployeeAssignment.ReasonForNotReturn;
-            itemtransfer.IsReturned = true;
+            itemtransfer.IsReturned = request.ItemEmployeeAssignment.IsReturned;
 
             var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
