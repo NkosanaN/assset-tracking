@@ -20,7 +20,7 @@ public class Item
     public float Cost { get; set; } = 0.00f;//should be uniqueCost
     public float Qty { get; set; } = 0.00f;
     public DateTime DatePurchased { get; set; }
-    public bool DueforRepair { get; set; } //must update the database
+    public bool DueforRepair { get; set; } 
 
     [ForeignKey("ShelveBy")]
     public Guid ShelfId { get; set; }
@@ -29,8 +29,6 @@ public class Item
     [ForeignKey("CreatedBy")]
     public string CreatedById { get; set; }
     public AppUser? CreatedBy { get; set; }
-
-
 
     //public ItemImage ItemImage { get; set; }
 }
