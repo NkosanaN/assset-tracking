@@ -1,8 +1,8 @@
-﻿using Application.Core;
-using AutoMapper;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
+using Application.Supplier;
+using FluentValidation;
 using MediatR;
-using Domain;
-using Persistence;
 
 namespace Application.Suppliers;
 
@@ -13,28 +13,27 @@ public class Edit
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public Domain.Supplier supplier { get; set; }
+        public Domain.Supplier? Supplier { get; set; }
     }
-    
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
-
-        public Handler(DataContext context)
+        private readonly ISupplierRepository _context;
+        
+        public Handler(ISupplierRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var sup = await _context.Suppliers.FindAsync(request.supplier.SupplierId);
+            var sup = await _context.GetByIdAsync(request.Supplier!.SupplierId);
 
             if (sup is null) return null!;
+            
+            sup.SupplierName = request.Supplier.SupplierName;
+            sup.SupplierDescription = request.Supplier.SupplierDescription;
 
-            sup.SupplierName = request.supplier.SupplierName;
-            sup.SupplierDescription = request.supplier.SupplierDescription;
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.UpdateAsync(sup);
 
             if (!result) return Result<Unit>.Failure("Failed to update Supplier");
 

@@ -61,7 +61,6 @@ namespace API.Controllers
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
                 AddressLine1 = registerDto.AddressLine1,
-
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -91,7 +90,7 @@ namespace API.Controllers
             return new UserDto
             {
                 DisplayName = user.DisplayName,
-                Img = user?.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url,
+                Img ="", /*user.UserPhotos.FirstOrDefault(x => x.IsMain)!.Url,*/
                 Token = _tokenService.CreateToken(user!),
                 Username = user!.UserName!
             };

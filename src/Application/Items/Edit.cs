@@ -2,8 +2,8 @@
 using AutoMapper;
 using MediatR;
 using Domain;
-using Persistence;
 using FluentValidation;
+using Application.Contracts.Persistence;
 
 namespace Application.Items;
 
@@ -14,7 +14,7 @@ public class Edit
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public Item Item { get; set; }
+        public Item? Item { get; set; }
     }
 
     public class CommandValidator : AbstractValidator<Command>
@@ -27,10 +27,10 @@ public class Edit
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IItemRepository _context;
         private readonly IMapper _mapper;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(IItemRepository context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -38,13 +38,14 @@ public class Edit
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var item = await _context.Items.FindAsync(request.Item.ItemId);
+        
+            var item = await _context.GetItemWithShelveById(request.Item!.ItemId);
 
             if (item is null) return null!;
 
             _mapper.Map(request.Item, item);
-            
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+
+            var result = await _context.UpdateAsync(item);
 
             if (!result) return Result<Unit>.Failure("Failed to update item");
 

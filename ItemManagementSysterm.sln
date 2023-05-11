@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementSystem.T1.Tests", "test\T1\ItemManagementSystem.T1.Tests\ItemManagementSystem.T1.Tests.csproj", "{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{695334F3-F3E1-4205-B03F-D3A851D4F447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{695334F3-F3E1-4205-B03F-D3A851D4F447}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{695334F3-F3E1-4205-B03F-D3A851D4F447}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

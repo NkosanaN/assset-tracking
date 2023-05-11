@@ -1,4 +1,4 @@
-﻿namespace Application.ItemEmployeeAssignments.Contracts;
+﻿namespace Application.ItemEmployeeAssignments.Dto;
 
 public class ItemEmployeeAssignmentRequest
 {

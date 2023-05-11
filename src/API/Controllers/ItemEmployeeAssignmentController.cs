@@ -1,6 +1,6 @@
 ﻿using Application.Core;
 using Application.ItemEmployeeAssignments;
-using Application.ItemEmployeeAssignments.Contracts;
+using Application.ItemEmployeeAssignments.Dto;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 

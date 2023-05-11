@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.Departments;
-using Application.Departments.Contracts;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +13,23 @@ public class DepartmentController : BaseApiController
         return HandlerPagedResult(await Mediator.Send(new List.Query { Params = param }));
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> DetailsDepartment(Guid id)
+    {
+        return HandlerResult(await Mediator.Send(new Details.Query { DepartmentId = id }));
+    }
+
     [HttpPost]
-    public async Task<IActionResult> CreateDepartment(DepartmentRequest dept)
+    public async Task<IActionResult> CreateDepartment(DepartmentDto dept)
     {
         return HandlerResult(await Mediator.Send(new Create.Command { DepartmentRequest = dept }));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditDepartment(Guid id, Department depart)
+    public async Task<IActionResult> EditDepartment(Guid id, Department department)
     {
-        depart.DepartmentId = id;
-        return HandlerResult(await Mediator.Send(new Edit.Command { department = depart }));
+        department.DepartmentId = id;
+        return HandlerResult(await Mediator.Send(new Edit.Command { Department = department }));
     }
 
     [HttpDelete("{id}")]

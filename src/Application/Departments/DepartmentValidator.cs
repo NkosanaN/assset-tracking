@@ -1,9 +1,8 @@
-﻿using Application.Departments.Contracts;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Application.Departments;
 
-public class DepartmentValidator : AbstractValidator<DepartmentRequest>
+public class DepartmentValidator : AbstractValidator<DepartmentDto>
 {
     public DepartmentValidator()
     {

@@ -1,8 +1,9 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
-using Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Items;
 
@@ -10,15 +11,15 @@ public class List
 {
     public class Query : IRequest<Result<PagedList<ItemDto>>>
     {
-        public PagingParams Params { get; set; }
+        public PagingParams? Params { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<PagedList<ItemDto>>>
     {
-        private readonly DataContext _context;
+        private readonly IItemRepository _context;
         private readonly IMapper _mapper;
 
-        public Handler(DataContext context,IMapper mapper)
+        public Handler(IItemRepository context,IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -26,13 +27,12 @@ public class List
 
         public async Task<Result<PagedList<ItemDto>>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var query = _context.Items
-                .OrderBy(d=>d.TimeStamp)
-                .ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
-                .AsQueryable();
+            var query = await _context.GetAllItem();
 
+            var list = query.AsNoTracking().ProjectTo<ItemDto>(_mapper.ConfigurationProvider).AsQueryable();
+            
             return Result<PagedList<ItemDto>>.Success(
-                await PagedList<ItemDto>.CreateAsync(query, request.Params.PageNumber,
+                await PagedList<ItemDto>.CreateAsync(list, request.Params!.PageNumber,
                     request.Params.PageSize));
         }
 

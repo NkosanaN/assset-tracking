@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class ItemsController : BaseApiController
+public class ItemController : BaseApiController
 {
     [HttpGet]
     public async Task<IActionResult> GetItems([FromQuery] PagingParams param)

@@ -7,7 +7,7 @@ namespace Domain
      * This model is design to hold User data 
      * A)  FK => UserPhoto
      */
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser         
     {
         public string DisplayName { get; set; } = string.Empty;
         public string? AddressLine1 { get; set; } = string.Empty;

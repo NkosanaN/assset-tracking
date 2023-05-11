@@ -1,7 +1,7 @@
 ﻿using Application.UserPhotos;
 using Microsoft.AspNetCore.Http;
 
-namespace Application.Interfaces
+namespace Application.Contracts.Persistence
 {
     public interface IPhotoAccessor
     {
@@ -9,4 +9,3 @@ namespace Application.Interfaces
         Task<string> DeletePhoto(string publicId);
     }
 }
-   
