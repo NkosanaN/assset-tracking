@@ -11,7 +11,7 @@ public class ItemRepository : GenericRepository<Item>, IItemRepository
 
     public Task<IQueryable<Item>> GetAllItem()
     {
-        return Task.FromResult(_dataContext.Items.AsQueryable());
+        return Task.FromResult(_dataContext.Items.Include(c => c.ShelveBy).AsQueryable());
     }
 
     public async Task<Item> GetItemWithShelveById(Guid id)

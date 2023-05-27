@@ -29,7 +29,10 @@ public class List
         {
             var query = await _context.GetAllItem();
 
-            var list = query.AsNoTracking().ProjectTo<ItemDto>(_mapper.ConfigurationProvider).AsQueryable();
+            var list = query
+                .AsNoTracking()
+               // .Include(c=>c.ShelveBy)
+                .ProjectTo<ItemDto>(_mapper.ConfigurationProvider).AsQueryable();
             
             return Result<PagedList<ItemDto>>.Success(
                 await PagedList<ItemDto>.CreateAsync(list, request.Params!.PageNumber,

@@ -40,7 +40,7 @@ namespace API.Controllers
 
                 string extension = Path.GetExtension(file.FileName);
 
-                string[] allowedExtension = new string[] { ".xls", ".xlsx" };
+                string[] allowedExtension = { ".xls", ".xlsx" };
 
                 if (!allowedExtension.Contains(extension))
                     return BadRequest("Sorry This file is not allowed");
@@ -88,7 +88,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message.ToString());
+                _logger.LogError(ex.Message);
             }
             _logger.LogInformation("File uploaded successfully");
             return BadRequest("Fail to upload file");
