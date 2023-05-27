@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Application.Interfaces;
+using Application.Contracts.Persistence;
 using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Security

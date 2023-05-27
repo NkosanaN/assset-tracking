@@ -1,9 +1,6 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
-using Persistence;
-
-using Domain;
-
 namespace Application.Suppliers;
 
 public class Delete
@@ -18,22 +15,20 @@ public class Delete
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly ISupplierRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(ISupplierRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var sup = await _context.Suppliers.FindAsync(request.Id);
+            var sup = await _context.GetByIdAsync(request.Id);
 
             if (sup is null) return null!;
 
-            _context.Remove(sup);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.DeleteAsync(sup);
 
             if (!result) return Result<Unit>.Failure("Failed to delete the Supplier");
 

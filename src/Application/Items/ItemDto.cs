@@ -13,7 +13,7 @@ namespace Application.Items
         public float Cost { get; set; }
         public float Qty { get; set; }
         public DateTime DatePurchased { get; set; }
-        public ShelveType Shelve { get; set; }
+        public ShelveType? ShelveBy { get; set; }
         //public ItemImage ItemImage { get; set; }
     }
 }

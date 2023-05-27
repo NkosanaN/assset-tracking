@@ -1,8 +1,6 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
-using Persistence;
-
-using Domain;
 
 namespace Application.ShelveTypes;
 
@@ -18,22 +16,20 @@ public class Delete
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IShelveRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(IShelveRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var shelve = await _context.ShelveTypes.FindAsync(request.Id);
+            var shelve = await _context.GetByIdAsync(request.Id);
 
             if (shelve is null) return null!;
-
-            _context.Remove(shelve);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            
+            var result = await _context.DeleteAsync(shelve);
 
             if (!result) return Result<Unit>.Failure("Failed to delete the ShelveType");
 

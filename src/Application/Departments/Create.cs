@@ -1,9 +1,9 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
 using FluentValidation;
-using Persistence;
 using Domain;
-using Application.Departments.Contracts;
+using Application.Departments;
 
 namespace Application.Departments;
 
@@ -14,7 +14,7 @@ public class Create
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public DepartmentRequest DepartmentRequest { get; set; } = new();
+        public DepartmentDto DepartmentRequest { get; set; } = new();
     }
 
     public class CommandValidator : AbstractValidator<Command>
@@ -27,9 +27,9 @@ public class Create
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IDepartmentRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(IDepartmentRepository context)
         {
             _context = context;
         }
@@ -42,10 +42,8 @@ public class Create
                 DepartmentName = request.DepartmentRequest.DepartmentName,
                 Description = request.DepartmentRequest.Description,
             };
-
-            _context.Departments.Add(model);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            
+            var result = await _context.CreateAsync(model);
 
             if (!result) return Result<Unit>.Failure("Fail to create Department");
 

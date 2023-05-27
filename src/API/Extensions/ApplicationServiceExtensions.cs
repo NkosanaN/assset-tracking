@@ -1,24 +1,13 @@
-﻿using API.Services;
-using Application.Core;
-using Application.Interfaces;
-using Application.Items;
-using FluentValidation;
-using FluentValidation.AspNetCore;
+﻿using Application.Contracts.Persistence;
 using Infrastructure.Photos;
 using Infrastructure.Security;
-using MediatR;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Persistence;
-using Persistence.DbInitializer;
-using System.Diagnostics;
 
 namespace API.Extensions;
 
 public static class ApplicationServiceExtensions
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection services,
+    public static IServiceCollection ConfigureApiServices(this IServiceCollection services,
         IConfiguration config)
     {
         services.AddEndpointsApiExplorer();
@@ -26,10 +15,6 @@ public static class ApplicationServiceExtensions
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Asset-Tracking API", Version = "v1" });
         });
-
-        services.AddDbContext<DataContext>(opt =>
-           opt.UseSqlServer(config.GetConnectionString("DefaultConnection"))
-        );
 
         #region PostGres
         //services.AddDbContext<DataContext>(options =>
@@ -85,11 +70,11 @@ public static class ApplicationServiceExtensions
                 });
         });
 
-        services.AddScoped<IDbInitializer, DbInitializer>();
-        services.AddMediatR(typeof(List));
-        services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-        services.AddFluentValidationAutoValidation();
-        services.AddValidatorsFromAssemblyContaining<Create>();
+        //services.AddScoped<IDbInitializer, DbInitializer>();
+        //services.AddMediatR(typeof(List));
+        //services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+        //services.AddFluentValidationAutoValidation();
+        //services.AddValidatorsFromAssemblyContaining<Create>();
         services.AddHttpContextAccessor();
         services.AddScoped<IUserAccessor, UserAccessor>();
         services.AddScoped<IPhotoAccessor, PhotoAccessor>();
@@ -98,7 +83,6 @@ public static class ApplicationServiceExtensions
 
         //services.AddSingleton(new EmailService("smtp.example.com", 587, "username", "password"));
   
-
         return services;
     }
 }

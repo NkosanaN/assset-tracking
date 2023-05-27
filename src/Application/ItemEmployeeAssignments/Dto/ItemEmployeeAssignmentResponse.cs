@@ -1,9 +1,10 @@
 ﻿using Domain;
 
-namespace Application.ItemEmployeeAssignments.Contracts;
+namespace Application.ItemEmployeeAssignments.Dto;
 
 public class ItemEmployeeAssignmentResponse
 {
+    public Guid AssigmentId { get; set; }
     public Guid ItemEmployeeCode { get; set; }
     public AppUser? IssuerBy { get; set; }
     public AppUser? ReceiverBy { get; set; }

@@ -1,7 +1,7 @@
 ﻿using Application.Core;
 using MediatR;
 using Domain;
-using Persistence;
+using Application.Contracts.Persistence;
 
 namespace Application.Items;
 
@@ -14,16 +14,16 @@ public class Details
 
     public class Handler : IRequestHandler<Query, Result<Item>>
     {
-        private readonly DataContext _context;
+        private readonly IItemRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(IItemRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Item>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var item =  await _context.Items.FindAsync(request.Id);
+            var item =  await _context.GetItemWithShelveById(request.Id);
 
             return Result<Item>.Success(item!);
         }

@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.Contracts.Persistence;
 using Application.UserPhotos;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;

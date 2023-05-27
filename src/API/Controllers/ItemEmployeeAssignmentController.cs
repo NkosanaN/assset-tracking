@@ -1,6 +1,6 @@
 ﻿using Application.Core;
 using Application.ItemEmployeeAssignments;
-using Application.ItemEmployeeAssignments.Contracts;
+using Application.ItemEmployeeAssignments.Dto;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +19,7 @@ public class ItemEmployeeAssignmentController : BaseApiController
     {
        return HandlerResult(await Mediator.Send(new Create.Command { ItemEmployeeAssignment = model }));
     }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetItemEmployeeAssignment(Guid id)
     {
