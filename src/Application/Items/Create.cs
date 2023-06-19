@@ -59,7 +59,22 @@ public class Create
                 return Result<Unit>.Failure("Item Name already exist");
             }
 
-            var data = await _context.CreateAsync(request.Item);
+            var item = new Item
+            {
+                ItemId = Guid.NewGuid(),
+                Name = request.Item.Name,
+                Description = request.Item.Description,
+                Serialno = request.Item.Serialno,
+                ItemTag = request.Item.ItemTag,
+                Cost = request.Item.Cost,
+                Qty = request.Item.Qty,
+                DatePurchased = request.Item.DatePurchased,
+                DueforRepair = false,
+                ShelfId = request.Item.ShelfId,
+                CreatedById = request.Item.CreatedById
+            };
+
+            var data = await _context.CreateAsync(item);
 
             if (!data) return Result<Unit>.Failure("Fail to create Item");
       

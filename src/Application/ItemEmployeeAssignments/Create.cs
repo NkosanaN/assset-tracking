@@ -69,10 +69,10 @@ public class Create
             }
 
 
-            var r2 = await _context
-                    .CheckHowManyTimesReceiverHasTakenOutItemWithOutReturn(request.ItemEmployeeAssignment.ReceiverById);
+            //var r2 = await _context
+            //        .CheckHowManyTimesReceiverHasTakenOutItemWithOutReturn(request.ItemEmployeeAssignment.ReceiverById);
 
-            if (!r2.Item1) return Result<Unit>.Failure(r2.Item2);
+            //if (!r2.Item1) return Result<Unit>.Failure(r2.Item2);
 
             var employeeAssignment = new ItemEmployeeAssignment
             {
@@ -80,8 +80,8 @@ public class Create
                 IssuerById = request.ItemEmployeeAssignment!.IssuerById,
                 ReceiverById = request.ItemEmployeeAssignment.ReceiverById,
                 ItemId = request.ItemEmployeeAssignment.ItemId,
-                IssueSignature = request.ItemEmployeeAssignment.IssueSignature,
-                ReceiverSignature = request.ItemEmployeeAssignment.ReceiverSignature,
+                IssueSignature = "N/A",
+                ReceiverSignature = "N/A",
                 DateTaken = request.ItemEmployeeAssignment.DateTaken,// add controls to check date 
                 IsReturned = false
             };

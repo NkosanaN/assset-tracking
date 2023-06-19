@@ -9,6 +9,6 @@ public interface IItemEmployeeAssignmentRepository : IGenericRepository<ItemEmpl
     Task<(bool,string)> CheckHowManyTimesReceiverHasTakenOutItemWithOutReturn(string id);
     Task<bool> CompareIssuerIdAndReceiver(string receiverId, string issuerId);
     Task<int> GetItemEmployeeAssignmentLinkedWithUser(string id);
-    Task<bool> ReturnItemEmployeeAssignment(Guid id);
+    Task<bool> ReturnItemEmployeeAssignment(Guid id, string note);
 }
 

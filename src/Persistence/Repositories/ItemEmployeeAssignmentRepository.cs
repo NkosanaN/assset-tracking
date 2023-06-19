@@ -58,7 +58,7 @@ public class ItemEmployeeAssignmentRepository : GenericRepository<ItemEmployeeAs
 
     public Task<IQueryable<ItemEmployeeAssignment>> GetItemEmployeeAssignmentList()
     {
-        var listOfItems = _dataContext.ItemEmployeeAssignments
+        var listOfItems = _dataContext.ItemEmployeeAssignments.AsNoTracking()
             .Include(c => c.Item)
             .Include(x => x.IssuerBy)
             .Include(x => x.ReceiverBy).AsQueryable();
@@ -66,8 +66,21 @@ public class ItemEmployeeAssignmentRepository : GenericRepository<ItemEmployeeAs
         return Task.FromResult(listOfItems);
     }
 
-    public Task<bool> ReturnItemEmployeeAssignment(Guid id)
+    public async Task<bool> ReturnItemEmployeeAssignment(Guid id, string note)
     {
-        return Task.FromResult(true);
+        //var item = await _dataContext.ItemEmployeeAssignments.FirstOrDefaultAsync(c => c.AssigmentId == id);
+
+        //_dataContext.ItemEmployeeAssignments
+        //    .exc
+        //    .FromSqlRaw(
+        //        $"update [tblitememployeeassignment] " +
+        //        $"set Condition = {note} ," +
+        //        $"IsReturned = {1} ")
+        //    .Where(c=>c.AssigmentId == id);
+
+        var rowsModified = _dataContext.Database.ExecuteSql($"UPDATE [tblitememployeeassignment] SET [Condition] = {note}, IsReturned = {1} , DateReturned = {DateTime.Now} Where [AssigmentId] = {id}");
+
+        return rowsModified == 1;
+        
     }
 }

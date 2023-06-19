@@ -14,6 +14,7 @@ namespace Application.Items
         public float Qty { get; set; }
         public DateTime DatePurchased { get; set; }
         public ShelveType? ShelveBy { get; set; }
+        public bool DueforRepair { get; set; }
         //public ItemImage ItemImage { get; set; }
     }
 }
