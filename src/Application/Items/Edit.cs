@@ -38,18 +38,31 @@ public class Edit
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-        
-            var item = await _context.GetItemWithShelveById(request.Item!.ItemId);
+            var isItemExist = await _context.GetItemWithShelveById(request.Item!.ItemId);
 
-            if (item is null) return null!;
+            if (isItemExist is null) return null!;
 
-            _mapper.Map(request.Item, item);
+            var item = new Item
+            {
+                ItemId = isItemExist.ItemId,
+                Name = request.Item.Name,
+                Description = request.Item.Description,
+                Serialno = request.Item.Serialno,
+                ItemTag = "Empty",
+                Cost = request.Item.Cost,
+                Qty = request.Item.Qty,
+                DatePurchased = request.Item.DatePurchased,
+                DueforRepair = isItemExist.DueforRepair,
+                ShelfId = request.Item.ShelfId,
+                ShelveBy = new ShelveType { ShelfId = request.Item.ShelfId },
+                CreatedBy = isItemExist.CreatedBy,
+                CreatedById = isItemExist.CreatedById
+            };
 
             var result = await _context.UpdateAsync(item);
 
             if (!result) return Result<Unit>.Failure("Failed to update item");
-
-            //Unit.Value is the same as return nothing as Command don't return anything
+            
             return Result<Unit>.Success(Unit.Value);
 
 

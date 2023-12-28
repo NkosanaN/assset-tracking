@@ -33,6 +33,13 @@ public class ItemEmployeeAssignmentController : BaseApiController
         return HandlerResult(await Mediator.Send(new Edit.Command { ItemEmployeeAssignment = model }));
     }
 
+    [HttpPut("{id}/ReturnItem")]
+    public async Task<IActionResult> ReturnItemItem(Guid id, ItemEmployeeAssignment item)
+    {
+        item.ItemId = id;
+        return HandlerResult(await Mediator.Send(new ReturnItem.Command { iItem = item}));
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteItemEmployeeAssignment(Guid id)
     {

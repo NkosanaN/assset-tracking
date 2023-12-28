@@ -20,8 +20,8 @@ public class Item
     public float Cost { get; set; } = 0.00f;//should be uniqueCost
     public float Qty { get; set; } = 0.00f;
     public DateTime DatePurchased { get; set; }
-    public bool DueforRepair { get; set; } 
-
+    public bool DueforRepair { get; set; }
+    //public string RepairMessage { get; set; }
     [ForeignKey("ShelveBy")]
     public Guid ShelfId { get; set; }
     public ShelveType? ShelveBy { get; set; }

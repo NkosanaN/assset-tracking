@@ -33,6 +33,13 @@ public class ItemController : BaseApiController
         return HandlerResult(await Mediator.Send(new Edit.Command { Item = item }));
     }
 
+
+    [HttpPut("{id}/BookRepairItem")]
+    public async Task<IActionResult> BookRepairItem(Guid id, Item item)
+    {
+        return HandlerResult(await Mediator.Send(new BookRepair.Command {Item = item}));
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteItem(Guid id)
     {

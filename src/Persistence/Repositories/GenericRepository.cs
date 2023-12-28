@@ -42,6 +42,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
     public async Task<bool> UpdateAsync(T entity)
     {
         _dataContext.Entry(entity).State = EntityState.Modified;
+        _dataContext.Set<T>().AsNoTracking();
 
         var result = await _dataContext.SaveChangesAsync() > 0;
 

@@ -16,7 +16,9 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
+        public AccountController(
+            UserManager<AppUser> userManager,
+            TokenService tokenService )
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -86,6 +88,15 @@ namespace API.Controllers
 
             return CreateUserObject(user!);
         }
+        //[HttpPost]
+        //public async Task<ActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync(); // Sign out the user
+
+        //    // Return a success message
+        //    return Ok(new { message = "Logout successful" });
+        //}
+
         private UserDto CreateUserObject(AppUser user)
         {
             return new UserDto
