@@ -14,7 +14,7 @@ public class Create
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public DepartmentDto DepartmentRequest { get; set; } = new();
+        public DepartmentDto DepartmentRequest { get; set; }
     }
 
     public class CommandValidator : AbstractValidator<Command>

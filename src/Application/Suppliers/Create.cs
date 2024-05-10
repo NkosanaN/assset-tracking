@@ -12,7 +12,7 @@ public class Create
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public SupplierDto SupplierDto { get; set; } = new();
+        public SupplierDto SupplierDto { get; set; }
     }
 
     public class CommandValidator : AbstractValidator<Command>
