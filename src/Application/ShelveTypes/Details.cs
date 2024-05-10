@@ -12,14 +12,9 @@ public class Details
         public Guid ShelfId { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<ShelveType>>
+    public class Handler(IShelveRepository context) : IRequestHandler<Query, Result<ShelveType>>
     {
-        private readonly IShelveRepository _context;
-
-        public Handler(IShelveRepository context)
-        {
-            _context = context;
-        }
+        private readonly IShelveRepository _context = context;
 
         public async Task<Result<ShelveType>> Handle(Query request, CancellationToken cancellationToken)
         {

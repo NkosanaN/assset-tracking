@@ -15,14 +15,9 @@ public class Edit
         public Department? Department { get; set; }
     }
     
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IDepartmentRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IDepartmentRepository _context;
-
-        public Handler(IDepartmentRepository context)
-        {
-            _context = context;
-        }
+        private readonly IDepartmentRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

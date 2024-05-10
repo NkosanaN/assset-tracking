@@ -25,16 +25,11 @@ public class ReturnItem
         //}
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IItemEmployeeAssignmentRepository context, IUserAccessor userAccessor) 
+        : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IItemEmployeeAssignmentRepository _context;
-        private readonly IUserAccessor _userAccessor;
-
-        public Handler(IItemEmployeeAssignmentRepository context, IUserAccessor userAccessor)
-        {
-            _context = context;
-            _userAccessor = userAccessor;
-        }
+        private readonly IItemEmployeeAssignmentRepository _context = context;
+        private readonly IUserAccessor _userAccessor = userAccessor;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -43,7 +38,7 @@ public class ReturnItem
             if (isItemExist is null) return null!;
 
             var result =
-                await _context.ReturnItemEmployeeAssignment(request.iItem.AssigmentId, request.iItem.Condition);
+                await _context.ReturnItemEmployeeAssignment(request.iItem.AssigmentId, request.iItem.Condition!);
 
             if (!result) return Result<Unit>.Failure("Fail to create booking");
 

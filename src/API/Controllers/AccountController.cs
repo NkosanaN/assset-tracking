@@ -11,18 +11,13 @@ namespace API.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController(
+        UserManager<AppUser> userManager,
+        TokenService tokenService) : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly TokenService _tokenService;
+        private readonly UserManager<AppUser> _userManager = userManager;
+        private readonly TokenService _tokenService = tokenService;
 
-        public AccountController(
-            UserManager<AppUser> userManager,
-            TokenService tokenService )
-        {
-            _userManager = userManager;
-            _tokenService = tokenService;
-        }
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto login)

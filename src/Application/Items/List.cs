@@ -14,16 +14,10 @@ public class List
         public PagingParams? Params { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<PagedList<ItemDto>>>
+    public class Handler(IItemRepository context, IMapper mapper) : IRequestHandler<Query, Result<PagedList<ItemDto>>>
     {
-        private readonly IItemRepository _context;
-        private readonly IMapper _mapper;
-
-        public Handler(IItemRepository context,IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        private readonly IItemRepository _context = context;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<Result<PagedList<ItemDto>>> Handle(Query request, CancellationToken cancellationToken)
         {

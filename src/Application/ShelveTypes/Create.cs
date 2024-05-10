@@ -24,14 +24,9 @@ public class Create
         }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IShelveRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IShelveRepository _context;
-
-        public Handler(IShelveRepository context)
-        {
-            _context = context;
-        }
+        private readonly IShelveRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

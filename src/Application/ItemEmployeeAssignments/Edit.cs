@@ -25,13 +25,10 @@ public class Edit
         }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IItemEmployeeAssignmentRepository context, IMapper mapper) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IItemEmployeeAssignmentRepository _context;
-        public Handler(IItemEmployeeAssignmentRepository context, IMapper mapper)
-        {
-            _context = context;
-        }
+        private readonly IItemEmployeeAssignmentRepository _context = context;
+
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             //this mapping doesn't work yet  

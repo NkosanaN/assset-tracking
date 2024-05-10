@@ -15,14 +15,9 @@ public class Edit
         public ShelveType? ShelveType { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IShelveRepository context, IMapper mapper) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IShelveRepository _context;
-
-        public Handler(IShelveRepository context, IMapper mapper)
-        {
-            _context = context;
-        }
+        private readonly IShelveRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

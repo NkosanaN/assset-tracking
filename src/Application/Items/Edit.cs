@@ -6,7 +6,6 @@ using FluentValidation;
 using Application.Contracts.Persistence;
 
 namespace Application.Items;
-
 public class Edit
 {
     /*
@@ -25,16 +24,10 @@ public class Edit
         }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IItemRepository context, IMapper mapper) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IItemRepository _context;
-        private readonly IMapper _mapper;
-
-        public Handler(IItemRepository context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        private readonly IItemRepository _context = context;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

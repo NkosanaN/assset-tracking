@@ -24,16 +24,10 @@ public class Create
         }
     }
 
-    public class Handler : IRequestHandler<Command , Result<Unit>>
+    public class Handler(IItemRepository context, IUserAccessor userAccessor) : IRequestHandler<Command , Result<Unit>>
     {
-        private readonly IItemRepository _context;
-        private readonly IUserAccessor _userAccessor;
-
-        public Handler(IItemRepository context, IUserAccessor userAccessor)
-        {
-            _context = context;
-            _userAccessor = userAccessor;
-        }
+        private readonly IItemRepository _context = context;
+        private readonly IUserAccessor _userAccessor = userAccessor;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

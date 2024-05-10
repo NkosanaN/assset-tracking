@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class ItemRepository : GenericRepository<Item>, IItemRepository
+public class ItemRepository(DataContext context) : GenericRepository<Item>(context), IItemRepository
 {
-    public ItemRepository(DataContext context) : base(context)
-    {
-    }
-
     public Task<IQueryable<Item>> GetAllItem()
     {
         return Task.FromResult(_dataContext.Items.Include(c => c.ShelveBy).AsQueryable());

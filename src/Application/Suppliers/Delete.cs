@@ -1,8 +1,8 @@
 ﻿using Application.Contracts.Persistence;
 using Application.Core;
 using MediatR;
-namespace Application.Suppliers;
 
+namespace Application.Suppliers;
 public class Delete
 {
     /*
@@ -13,14 +13,9 @@ public class Delete
         public Guid Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(ISupplierRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly ISupplierRepository _context;
-
-        public Handler(ISupplierRepository context)
-        {
-            _context = context;
-        }
+        private readonly ISupplierRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

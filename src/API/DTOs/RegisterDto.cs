@@ -1,28 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs
-{
-    public class RegisterDto
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
+namespace API.DTOs;
 
-        [Required]
-       // [RegularExpression("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{4,8}$", ErrorMessage = "Password must be complex")]
-        public string Password { get; set; } = string.Empty;
+public record RegisterDto(
+    [Required][EmailAddress] string Email, 
+    [Required] string Password, 
+               string DisplayName, 
+    [Required] string Username, 
+    [Required] string Firstname,
+    [Required] string Lastname, 
+               string AddressLine1
+    );
 
-        public string DisplayName { get; set; } = string.Empty;
-
-        [Required]
-        public string Username { get; set; } = string.Empty;
-
-        [Required]
-        public string Firstname { get; set; }
-
-        [Required]
-        public string Lastname { get; set; }
-
-        public string AddressLine1 { get; set; } = string.Empty;
-    }
-}

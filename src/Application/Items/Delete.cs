@@ -13,14 +13,9 @@ public class Delete
         public Guid Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IItemRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IItemRepository _context;
-
-        public Handler(IItemRepository context)
-        {
-            _context = context;
-        }
+        private readonly IItemRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

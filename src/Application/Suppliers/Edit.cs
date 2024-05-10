@@ -15,14 +15,9 @@ public class Edit
     {
         public Domain.Supplier? Supplier { get; set; }
     }
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(ISupplierRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly ISupplierRepository _context;
-        
-        public Handler(ISupplierRepository context)
-        {
-            _context = context;
-        }
+        private readonly ISupplierRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -39,9 +34,6 @@ public class Edit
 
             //Unit.Value is the same as return nothing as Command don't return anything
             return Result<Unit>.Success(Unit.Value);
-
-
         }
-
     }
 }

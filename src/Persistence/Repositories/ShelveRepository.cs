@@ -4,11 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class ShelveRepository : GenericRepository<ShelveType> , IShelveRepository
+public class ShelveRepository(DataContext context) : GenericRepository<ShelveType>(context) , IShelveRepository
 {
-    public ShelveRepository(DataContext context) : base(context)
-    { }
-
     public Task<IQueryable<ShelveType>> GetAllShelveType()
     {
         return Task.FromResult(_dataContext.ShelveTypes.AsQueryable());

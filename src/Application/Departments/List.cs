@@ -12,13 +12,9 @@ public class List
     {
         public PagingParams? Params { get; set; }
     }
-    public class Handler : IRequestHandler<Query, Result<PagedList<Department>>>
+    public class Handler(IDepartmentRepository context) : IRequestHandler<Query, Result<PagedList<Department>>>
     {
-        private readonly IDepartmentRepository _context;
-        public Handler(IDepartmentRepository context)
-        {
-            _context = context;
-        }
+        private readonly IDepartmentRepository _context = context;
 
         public async Task<Result<PagedList<Department>>> Handle(Query request, CancellationToken cancellationToken)
         {

@@ -12,14 +12,9 @@ public class List
         public PagingParams? Params { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<PagedList<ShelveType>>>
+    public class Handler(IShelveRepository context) : IRequestHandler<Query, Result<PagedList<ShelveType>>>
     {
-        private readonly IShelveRepository _context;
-
-        public Handler(IShelveRepository context)
-        {
-            _context = context;
-        }
+        private readonly IShelveRepository _context = context;
 
         public async Task<Result<PagedList<ShelveType>>> Handle(Query request, CancellationToken cancellationToken)
         {

@@ -12,14 +12,9 @@ public class List
         public PagingParams? Params { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<PagedList<AppUser>>>
+    public class Handler(IUserRepository context) : IRequestHandler<Query, Result<PagedList<AppUser>>>
     {
-        private readonly IUserRepository _context;
-
-        public Handler(IUserRepository context)
-        {
-            _context = context;
-        }
+        private readonly IUserRepository _context = context;
 
         public async Task<Result<PagedList<AppUser>>> Handle(Query request, CancellationToken cancellationToken)
         {

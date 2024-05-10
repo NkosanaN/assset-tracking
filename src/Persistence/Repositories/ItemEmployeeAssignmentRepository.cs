@@ -4,11 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class ItemEmployeeAssignmentRepository : GenericRepository<ItemEmployeeAssignment>, IItemEmployeeAssignmentRepository
+public class ItemEmployeeAssignmentRepository(DataContext context) 
+    : GenericRepository<ItemEmployeeAssignment>(context), IItemEmployeeAssignmentRepository
 {
-    public ItemEmployeeAssignmentRepository(DataContext context) : base(context)
-    { }
-
     public async Task<(bool, string)> CheckHowManyTimesReceiverHasTakenOutItemWithOutReturn(string id)
     {
         var results = false;
@@ -78,7 +76,8 @@ public class ItemEmployeeAssignmentRepository : GenericRepository<ItemEmployeeAs
         //        $"IsReturned = {1} ")
         //    .Where(c=>c.AssigmentId == id);
 
-        var rowsModified = _dataContext.Database.ExecuteSql($"UPDATE [tblitememployeeassignment] SET [Condition] = {note}, IsReturned = {1} , DateReturned = {DateTime.Now} Where [AssigmentId] = {id}");
+        var rowsModified = 
+            _dataContext.Database.ExecuteSql($"UPDATE [tblitememployeeassignment] SET [Condition] = {note}, IsReturned = {1} , DateReturned = {DateTime.Now} Where [AssigmentId] = {id}");
 
         return rowsModified == 1;
         

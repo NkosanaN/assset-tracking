@@ -3,8 +3,8 @@ using Application.Core;
 using MediatR;
 using FluentValidation;
 using Application.Supplier;
-namespace Application.Suppliers;
 
+namespace Application.Suppliers;
 public class Create
 {
     /*
@@ -23,14 +23,9 @@ public class Create
         }
     }
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(ISupplierRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly ISupplierRepository _context;
-
-        public Handler(ISupplierRepository context)
-        {
-            _context = context;
-        }
+        private readonly ISupplierRepository _context = context;
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {

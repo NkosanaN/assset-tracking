@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
 using MimeKit.Text;
 
-
 namespace API.Services;
 
 //https://ethereal.email/create
-
 public static class EmailSender 
 {
     public static async Task SendVerificationEmail(string email, string pwd, string subject, string htmlMessage)

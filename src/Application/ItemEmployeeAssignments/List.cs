@@ -16,16 +16,11 @@ public class List
         public PagingParams? Params { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<PagedList<ItemEmployeeAssignmentResponse>>>
+    public class Handler(IItemEmployeeAssignmentRepository context, IMapper mapper) 
+        : IRequestHandler<Query, Result<PagedList<ItemEmployeeAssignmentResponse>>>
     {
-        private readonly IItemEmployeeAssignmentRepository _context;
-        private readonly IMapper _mapper;
-
-        public Handler(IItemEmployeeAssignmentRepository context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        private readonly IItemEmployeeAssignmentRepository _context = context;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<Result<PagedList<ItemEmployeeAssignmentResponse>>> Handle(Query request,
             CancellationToken cancellationToken)

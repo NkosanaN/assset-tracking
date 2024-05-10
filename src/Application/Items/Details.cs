@@ -12,14 +12,9 @@ public class Details
         public Guid Id { get; set; }
     }
 
-    public class Handler : IRequestHandler<Query, Result<Item>>
+    public class Handler(IItemRepository context) : IRequestHandler<Query, Result<Item>>
     {
-        private readonly IItemRepository _context;
-
-        public Handler(IItemRepository context)
-        {
-            _context = context;
-        }
+        private readonly IItemRepository _context = context;
 
         public async Task<Result<Item>> Handle(Query request, CancellationToken cancellationToken)
         {

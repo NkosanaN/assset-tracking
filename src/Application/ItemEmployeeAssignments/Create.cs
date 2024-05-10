@@ -32,14 +32,10 @@ public class Create
     //    }
     //}
 
-    public class Handler : IRequestHandler<Command, Result<Unit>>
+    public class Handler(IItemEmployeeAssignmentRepository context) : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly IItemEmployeeAssignmentRepository _context;
+        private readonly IItemEmployeeAssignmentRepository _context = context;
 
-        public Handler(IItemEmployeeAssignmentRepository context)
-        {
-            _context = context;
-        }
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             //Todo

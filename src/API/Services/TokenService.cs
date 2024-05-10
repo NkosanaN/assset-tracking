@@ -4,42 +4,35 @@ using System.Text;
 using Domain;
 using Microsoft.IdentityModel.Tokens;
 
-namespace API.Services
+namespace API.Services;
+public class TokenService(IConfiguration config)
 {
-    public class TokenService
+    private readonly IConfiguration _config = config;
+
+    public string CreateToken(AppUser appUser)
     {
-        private readonly IConfiguration _config;
-
-        public TokenService(IConfiguration config)
+        //we use Claim to verify is what users say they're
+        //We can integrate this with Azure for more security
+        var claims = new List<Claim>
         {
-            _config = config;
-        }
-        public string CreateToken(AppUser appUser)
+            new(ClaimTypes.Name, appUser.UserName!),
+            new(ClaimTypes.NameIdentifier, appUser.Id),
+            new(ClaimTypes.Email, appUser.Email!)
+        };
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]!));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
         {
-            //we use Claim to verify is what users say they're
-            //We can integrate this with Azure for more security
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.Name, appUser.UserName!),
-                new(ClaimTypes.NameIdentifier, appUser.Id),
-                new(ClaimTypes.Email, appUser.Email!)
-            };
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddDays(7),
+            SigningCredentials = creds
+        };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"]!));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = creds
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
-
-        }
+        return tokenHandler.WriteToken(token);
     }
 }

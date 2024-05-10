@@ -1,12 +1,10 @@
-﻿namespace Application.User
-{
-    public class AppUserDto
-    {
-        public string DisplayName { get; set; } = string.Empty;
-        public string? AddressLine1 { get; set; } = string.Empty;
-        public string? AddressLine2 { get; set; }
-        public virtual string? UserName { get; set; }
-        public virtual string? NormalizedUserName { get; set; }
-        public virtual string? Email { get; set; }
-    }
-}
+﻿namespace Application.User;
+
+public record AppUserDto(
+    string DisplayName,
+    string? AddressLine1,
+    string? AddressLine2,
+    string? UserName,
+    string? NormalizedUserName,
+    string? Email
+    );

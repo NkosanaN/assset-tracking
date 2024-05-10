@@ -8,21 +8,15 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReadFileController : ControllerBase
+    public class ReadFileController(IConfiguration config,
+        IWebHostEnvironment hostEnvironment, DataContext dataContext, ILogger<ReadFileController> logger) : ControllerBase
     {
-        private readonly IConfiguration _config;
-        private readonly IWebHostEnvironment _hostEnvironment;
-        private readonly DataContext _dataContext;
-        private readonly ILogger<ReadFileController> _logger;
+        private readonly IConfiguration _config = config;
+        private readonly IWebHostEnvironment _hostEnvironment = hostEnvironment;
+        private readonly DataContext _dataContext = dataContext;
+        private readonly ILogger<ReadFileController> _logger = logger;
         public IExcelDataReader reader;
-        public ReadFileController(IConfiguration config,
-            IWebHostEnvironment hostEnvironment, DataContext dataContext, ILogger<ReadFileController> logger)
-        {
-            _config = config;
-            _hostEnvironment = hostEnvironment;
-            _dataContext = dataContext;
-            _logger = logger;
-        }
+
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file)
         {
@@ -73,8 +67,8 @@ namespace API.Controllers
 
                             Item item = new()
                             {
-                                Name = serviceDetails.Rows[i][0].ToString(),
-                                Description = serviceDetails.Rows[i][1].ToString(),
+                                Name = serviceDetails.Rows[i][0].ToString()!,
+                                Description = serviceDetails.Rows[i][1].ToString()!,
                                 Qty = Convert.ToInt64(serviceDetails.Rows[i][2].ToString()),
                                 DueforRepair = dueforrepair
                             };

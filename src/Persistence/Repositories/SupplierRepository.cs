@@ -4,11 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories;
 
-public class SupplierRepository : GenericRepository<Supplier>, ISupplierRepository
+public class SupplierRepository(DataContext context) : GenericRepository<Supplier>(context), ISupplierRepository
 {
-    public SupplierRepository(DataContext context) : base(context)
-    { }
-    
     public async Task<bool> IsSupplierNameUnique(string name)
     {
         return await _dataContext.Suppliers.AnyAsync(q => q.SupplierName == name) == false!;
