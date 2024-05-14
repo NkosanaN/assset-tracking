@@ -1,5 +1,4 @@
 ﻿using Application.Contracts.Persistence;
-using Application.User;
 using Domain;
 
 namespace Persistence.Repositories;

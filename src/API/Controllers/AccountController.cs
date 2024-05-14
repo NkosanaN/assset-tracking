@@ -96,6 +96,17 @@ public class AccountController(
 
     private UserDto CreateUserObject(AppUser user)
     {
-        return new UserDto(user.DisplayName, _tokenService.CreateToken(user!), string.Empty, user!.UserName!, user.Firstname, user.Lastname);
+        //return new UserDto(user.DisplayName, _tokenService.CreateToken(user!), 
+        //    string.Empty, user!.UserName!, user.Firstname, user.Lastname);
+
+        return new UserDto
+        {
+            Firstname = user.Firstname,
+            Lastname = user.Lastname,
+            DisplayName = user.DisplayName,
+            Img = "", /*user.UserPhotos.FirstOrDefault(x => x.IsMain)!.Url,*/
+            Token = _tokenService.CreateToken(user!),
+            Username = user!.UserName!
+        };
     }
 }
