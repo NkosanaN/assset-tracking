@@ -1,0 +1,6 @@
+@ItemTransfer.API_HostAddress = http://localhost:5072
+
+GET {{ItemTransfer.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
