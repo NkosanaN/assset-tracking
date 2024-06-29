@@ -3,8 +3,9 @@ name: Build and deploy .NET Core application
 on:
   push:
     branches:
-    - master
-    - dev
+      - main
+      - develop
+      - feature/*
 
 env:
   AZURE_WEBAPP_NAME: atracking
