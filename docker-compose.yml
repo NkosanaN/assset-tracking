@@ -12,9 +12,9 @@ services:
     api: 
       depends_on:
         - db
-      image : website
+      #image : website
       build:
         context: .
-        dockerfile: Dockerfile
+        dockerfile: services/Item/Item.API/Dockerfile
       ports:
           - "8082:80"
