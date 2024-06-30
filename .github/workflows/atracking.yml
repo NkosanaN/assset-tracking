@@ -29,7 +29,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
 
     - name: Restore
-      run: dotnet restore .\services\Item\Item.API\Item.API1.csproj
+      run: dotnet restore .\services\Item\Item.API\Item.API.csproj
 
     - name: Build
       run: dotnet build .\services\Item\Item.API\Item.API.csproj --configuration ${{ env.CONFIGURATION }} --no-restore
