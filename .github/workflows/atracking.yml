@@ -2,10 +2,14 @@ name: Build and deploy .NET Core application
 
 on:
   push:
+  pull_request:  
     branches:
       - main
       - develop
       - feature/*
+    paths:
+      - '**.cs'
+      - '**.csproj'
 
 env:
   AZURE_WEBAPP_NAME: atracking
