@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: sqlserver
+  name: sqlserver
+spec:
+  containers:
+  - image: mcr.microsoft.com/mssql/server:2019-latest
+    name: sqlserver
+    env:
+     - name: ACCEPT_EULA
+       value: "Y"
+     - name: MSSQL_SA_PASSWORD
+       value: "TE$ST"
+     - name: MSSQL_PID
+       value: "Developer"
+    ports:
+     - containerPort: 1433
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-sqlserver
+type: Opaque
+stringData:
+  ConnectionStrings: "Server=sqlserver-svc; Database=IrepoM; User Id=sa; Password=TE$ST;TrustServerCertificate=True;MultipleActiveResultSets=true" 
+  Password: "TE$ST"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver-svc
+spec:
+  selector:
+    app: sqlserver
+  ports:
+    - protocol: TCP
+      port: 1433

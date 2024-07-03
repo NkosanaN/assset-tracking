@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: item-management-api-deployment
+  labels:
+    app: item-management-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: item-management-api
+  template:
+    metadata:
+      labels:
+        app: item-management-api
+    spec:
+      initContainers:
+      - name: create-database
+        image: mcr.microsoft.com/mssql-tools
+        command: ['sh', '-c', '/opt/mssql-tools/bin/sqlcmd - S sqlserver-svc -U sa -P $(Password) -d master -q "IF DB_ID (N''IREPO'') IS NULL Create Database IREPO;" ']
+      env:
+        - name: Password
+          valueFrom:
+            secretKeyRef:
+              name: secret-sqlserver
+              key: Password      
+      containers:
+      - name: item-management-api
+        image: nkosanan/item-management:latest
+        ports:
+         - containerPort: 80       
+        env:
+          - name: ConnectionStrings
+            valueFrom:
+              secretKeyRef:
+                name: secret-sqlserver
+                key: ConnectionStrings
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: item-management-api-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: item-management-api
+  ports:
+    - protocol: TCP
+      port: 80
