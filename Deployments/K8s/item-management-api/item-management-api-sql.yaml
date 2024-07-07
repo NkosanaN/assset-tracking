@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserverdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqlserver-development
+  template:
+    metadata:
+      labels:
+        app: sqlserver-development
+    spec:
+      containers:
+        - name: sqlserver-development
+          image: mcr.microsoft.com/mssql/server:2022-latest 
+          ports:
+            - containerPort: 1433   
+          # resources:  # this removes squiling lines not necessary
+          #     requests:
+          #       memory: "2Gi"
+          #       cpu: "500m"
+          #     limits:
+          #       memory: "2Gi"
+          #       cpu: "500m"
+          env:
+          - name: MSSQL_PID
+            value: "Developer"
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: SA_PASSWORD
+            value: "S3cur3P@ssW0rd!"
+      # volumeMounts:
+      #   - name: sqlserver
+      #     mounthPath: /var/opt/sqlserver
+   
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserverdb
+spec:
+  selector:
+    app: sqlserver-development
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
+  type: LoadBalancer

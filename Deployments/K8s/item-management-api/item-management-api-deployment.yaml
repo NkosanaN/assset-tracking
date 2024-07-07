@@ -12,29 +12,28 @@ spec:
   template:
     metadata:
       labels:
-        app: item-management-api
+        app: item-management-api 
     spec:
-      initContainers:
-      - name: create-database
-        image: mcr.microsoft.com/mssql-tools
-        command: ['sh', '-c', '/opt/mssql-tools/bin/sqlcmd - S sqlserver-svc -U sa -P $(Password) -d master -q "IF DB_ID (N''IREPO'') IS NULL Create Database IREPO;" ']
-      env:
-        - name: Password
-          valueFrom:
-            secretKeyRef:
-              name: secret-sqlserver
-              key: Password      
       containers:
-      - name: item-management-api
-        image: nkosanan/item-management:latest
-        ports:
-         - containerPort: 80       
-        env:
-          - name: ConnectionStrings
-            valueFrom:
-              secretKeyRef:
-                name: secret-sqlserver
-                key: ConnectionStrings
+        - name: item-management-api
+          image: nkosanan/item-management:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80       
+          env:
+            - name: ConnectionStrings
+              valueFrom:
+                secretKeyRef:
+                  name: secret-sqlserver
+                  key: ConnectionStrings
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+
 ---
 apiVersion: v1
 kind: Service
