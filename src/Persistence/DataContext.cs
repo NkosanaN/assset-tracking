@@ -6,9 +6,7 @@ namespace Persistence;
 
 public class DataContext : IdentityDbContext<AppUser>
 {
-    public DataContext(DbContextOptions options) : base(options)
-    {
-    }
+    public DataContext(DbContextOptions options) : base(options) { }
     public DbSet<Item> Items { get; set; }
     public DbSet<ItemImage> ItemImages { get; set; }
     public DbSet<UserPhoto> UserPhotos { get; set; }
@@ -19,24 +17,34 @@ public class DataContext : IdentityDbContext<AppUser>
     public DbSet<Supplier> Suppliers { get; set; }
 
     #region OnModelCreating
-    //protected override void OnModelCreating(ModelBuilder builder)
-    //{
-    //    base.OnModelCreating(builder);
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        // Relationships and foreign keys
+        builder.Entity<ItemEmployeeAssignment>()
+            .HasOne(iea => iea.IssuerBy)
+            .WithMany()  // Adjust this if AppUser has a collection of ItemEmployeeAssignments
+            .HasForeignKey(iea => iea.IssuerById)
+            .OnDelete(DeleteBehavior.Restrict);
 
-    //    //builder.Entity<Item>(x => x.HasIndex(aa => new { aa.Serialno}).IsUnique());
+        builder.Entity<ItemEmployeeAssignment>()
+           .HasOne(iea => iea.ReceiverBy)
+           .WithMany()  // Adjust this if AppUser has a collection of ItemEmployeeAssignments
+           .HasForeignKey(iea => iea.ReceiverById)
+           .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<ItemEmployeeAssignment>()
+           .HasOne(iea => iea.Item)
+           .WithMany()  // Adjust this if Item has a collection of ItemEmployeeAssignments
+           .HasForeignKey(iea => iea.ItemId)
+           .OnDelete(DeleteBehavior.Restrict);
 
-    //   // builder.Entity<ItemEmployeeAssignment>(x => x.HasKey(aa => new { aa.Id, aa.ItemId }));
+        builder.Entity<Transferhistory>()
+            .HasOne(iea => iea.Item)
+            .WithMany()  // Adjust this if Item has a collection of ItemEmployeeAssignments
+            .HasForeignKey(iea => iea.ItemById)
+            .OnDelete(DeleteBehavior.Restrict);
 
-    //    //builder.Entity<ItemTranfer>()
-    //    //    .HasOne(u => u.AppUser)
-    //    //    .WithMany(a => a.ItemTranferHistory)
-    //    //    .HasForeignKey(aa => aa.AppUserId);
-
-    //    //builder.Entity<ItemTranfer>()
-    //    //    .HasOne(u => u.Item)
-    //    //    .WithMany(a => a.ItemsTrackings)
-    //    //    .HasForeignKey(aa => aa.ItemId);
-    //}
+    }
     #endregion
 }

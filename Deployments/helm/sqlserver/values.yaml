@@ -1,0 +1,35 @@
+replicaCount: 1
+
+image:
+  repository: mcr.microsoft.com/mssql/server
+  pullPolicy: IfNotPresent
+  tag: "2022-latest"
+
+service:
+  type: LoadBalancer
+  #type: ClusterIP
+  port: 1433
+
+resources:
+  limits:
+    memory: 2Gi
+    cpu: "2"
+  requests:
+    memory: 1Gi
+    cpu: "1"
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+
+env:
+  MSSQL_PID: "Developer"
+  ACCEPT_EULA: "Y"
+  SA_PASSWORD: S3cur3P@ssW0rd!
+
+nodeSelector: {}
+tolerations: []
+affinity: []

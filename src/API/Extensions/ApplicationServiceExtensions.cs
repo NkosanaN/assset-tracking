@@ -1,5 +1,4 @@
-﻿using API.Services;
-using Application.Core;
+﻿using Application.Core;
 using Application.Interfaces;
 using Application.Items;
 using FluentValidation;
@@ -7,12 +6,10 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Persistence.DbInitializer;
-using System.Diagnostics;
 
 namespace API.Extensions;
 
@@ -30,47 +27,6 @@ public static class ApplicationServiceExtensions
         services.AddDbContext<DataContext>(opt =>
            opt.UseSqlServer(config.GetConnectionString("DefaultConnection"))
         );
-
-        #region PostGres
-        //services.AddDbContext<DataContext>(options =>
-        //{
-        //    var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-        //    string connStr;
-
-        //    // Depending on if in development or production, use either flyio
-        //    // connection string, or development connection string from env var.
-        //    if (env == "Development")
-        //    {
-        //       // Use connection string from file.
-        //       connStr = config.GetConnectionString("DefaultConnection");
-        //    }
-        //    else
-        //    {
-        //        // Use connection string provided at runtime by flyio.
-        //        var connUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-
-        //        // Parse connection URL to connection string for Npgsql
-        //        connUrl = connUrl.Replace("postgres://", string.Empty);
-        //        var pgUserPass = connUrl.Split("@")[0];
-        //        var pgHostPortDb = connUrl.Split("@")[1];
-        //        var pgHostPort = pgHostPortDb.Split("/")[0];
-        //        var pgDb = pgHostPortDb.Split("/")[1];
-        //        var pgUser = pgUserPass.Split(":")[0];
-        //        var pgPass = pgUserPass.Split(":")[1];
-        //        var pgHost = pgHostPort.Split(":")[0];
-        //        var pgPort = pgHostPort.Split(":")[1];
-
-        //        //connStr = $"Server={pgHost};Port={pgPort};User Id={pgUser};Password={pgPass};Database={pgDb}; SSL Mode=Require; Trust Server Certificate=true";
-        //        connStr = $"postges://{pgUser}:{pgPass}@{pgHost}:{pgPort}/{pgDb}?options";
-        //    }
-
-        //    // Whether the connection string came from the local development configuration file
-        //    // or from the environment variable from Heroku, use it to set up your DbContext.
-        //    Debug.WriteLine($"{connStr}");
-        //    options.UseNpgsql(connStr);
-        //});
-        #endregion
 
         services.AddCors(opt =>
         {
@@ -97,8 +53,6 @@ public static class ApplicationServiceExtensions
         services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
 
         //services.AddSingleton(new EmailService("smtp.example.com", 587, "username", "password"));
-  
-
         return services;
     }
 }

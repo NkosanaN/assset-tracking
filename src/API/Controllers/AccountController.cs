@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace API.Controllers
 {
 
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -86,6 +86,15 @@ namespace API.Controllers
             return CreateUserObject(user!);
         }
 
+        [Authorize]
+        [HttpGet("Users")]
+        public async Task<ActionResult<List<AppUser>>> GetAllUsers()
+        {
+            var user = await _userManager.Users.ToListAsync();
+
+            return Ok(user);
+        }
+
         private UserDto CreateUserObject(AppUser user)
         {
             return new UserDto
@@ -96,7 +105,6 @@ namespace API.Controllers
                 Username = user!.UserName!
             };
         }
-
 
     }
 }

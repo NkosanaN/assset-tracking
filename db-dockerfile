@@ -1,0 +1,6 @@
+FROM mcr.microsoft.com/mssql/server:2022-latest AS build
+ENV ACCEPT_EULA=Y
+ENV SA_PASSWORD=S3cur3P@ssW0rd!
+
+WORKDIR /tmp
+COPY source dest

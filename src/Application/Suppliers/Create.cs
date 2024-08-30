@@ -2,8 +2,6 @@
 using MediatR;
 using FluentValidation;
 using Persistence;
-using Domain;
-using Application.Departments.Contracts;
 using Application.Supplier;
 using Application.Suppliers.Contracts;
 

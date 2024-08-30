@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sqlserver.fullname" . }}
+  labels:
+    {{- include "sqlserver.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "sqlserver.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "sqlserver.name" . }}
+    spec:
+      containers:
+      - name: sqlserver      
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: 1433
+        env:
+        - name: MSSQL_PID
+          value: "{{ .Values.env.MSSQL_PID }}"
+        - name: ACCEPT_EULA
+          value: "{{ .Values.env.ACCEPT_EULA }}"
+        - name: SA_PASSWORD
+          value: "{{ .Values.env.SA_PASSWORD }}"
+        volumeMounts:
+        - name: mssql-data
+          mountPath: /var/opt/mssql
+        resources:
+          requests:
+            memory: {{ .Values.resources.requests.memory }}
+            cpu: {{ .Values.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.resources.limits.memory }}
+            cpu: {{ .Values.resources.limits.cpu }}
+      # initContainers:
+      # - name: init-create-db
+      #   image: mcr.microsoft.com/mssql-tools
+      #   command: 
+      #     - /bin/sh
+      #     - -c
+      #     - |
+      #       # Debugging: Print environment variables and the hostname
+      #       echo "SA_PASSWORD: S3cur3P@ssW0rd!"
+      #       echo "Attempting to connect to SQL Server at sqlserver-sql-server.default.svc.cluster.local"
+      #       hostname
+      #       echo "Starting database initialization"
+
+      #       # Wait for SQL Server to be available
+      #       until /opt/mssql-tools/bin/sqlcmd -S sqlserver-sql-server.default.svc.cluster.local -U sa -P S3cur3P@ssW0rd! -t 60 -Q "SELECT state_desc FROM sys.dm_server_services WHERE servicename = 'MSSQLSERVER' AND status_desc = 'Running';" | grep -q "Running"; do
+      #         echo "Waiting for SQL Server to start..."
+      #         sleep 20
+      #       done
+      #       echo "SQL Server started, creating database..."
+      #       # Create the database
+      #       /opt/mssql-tools/bin/sqlcmd -S sqlserver-sql-server.default.svc.cluster.local -U sa -P S3cur3P@ssW0rd! -t 60 -Q "CREATE DATABASE myDatabase1"
+      volumes:
+      - name: mssql-data
+        persistentVolumeClaim:
+          claimName: {{ include "sqlserver.fullname" . }}

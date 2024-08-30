@@ -1,0 +1,25 @@
+environment: development
+
+apphost: k8s
+
+label:
+  name: asset-tracking
+
+container:
+  name: asset-tracking
+  pullPolicy: IfNotPresent
+  image: nkosanan/asset-api
+  tag: latest
+  port: 80
+replicas: 1
+
+sqlserver:
+  hostname: sqlserver-sql-server #svc name for connection inside cluster
+  database: AssetManagement
+  username: sa
+  password: "S3cur3P@ssW0rd!"
+
+service:
+  port: 8080
+  targetPort : 80
+  type: ClusterIP
