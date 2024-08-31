@@ -16,7 +16,9 @@ namespace API.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
+        public AccountController(
+            UserManager<AppUser> userManager,
+            TokenService tokenService )
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -57,11 +59,12 @@ namespace API.Controllers
 
             var user = new AppUser
             {
+                Firstname = registerDto.Firstname,
+                Lastname = registerDto.Lastname,
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
                 UserName = registerDto.Username,
                 AddressLine1 = registerDto.AddressLine1,
-
             };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -85,6 +88,14 @@ namespace API.Controllers
 
             return CreateUserObject(user!);
         }
+        //[HttpPost]
+        //public async Task<ActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync(); // Sign out the user
+
+        //    // Return a success message
+        //    return Ok(new { message = "Logout successful" });
+        //}
 
         [Authorize]
         [HttpGet("Users")]
@@ -99,8 +110,10 @@ namespace API.Controllers
         {
             return new UserDto
             {
+                Firstname = user.Firstname,
+                Lastname = user.Lastname,
                 DisplayName = user.DisplayName,
-                Img = user?.UserPhotos.FirstOrDefault(x => x.IsMain)?.Url,
+                Img ="", /*user.UserPhotos.FirstOrDefault(x => x.IsMain)!.Url,*/
                 Token = _tokenService.CreateToken(user!),
                 Username = user!.UserName!
             };

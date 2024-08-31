@@ -1,8 +1,8 @@
 ﻿using Application.Core;
 using MediatR;
 using FluentValidation;
-using Persistence;
 using Domain;
+using Application.Contracts.Persistence;
 
 namespace Application.ShelveTypes;
 
@@ -26,24 +26,29 @@ public class Create
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IShelveRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(IShelveRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
+            var exist = await _context.IsShelveTypeUnique(request.ShelveType.ShelfTag) == false;
+
+            if (exist)
+            {
+                return Result<Unit>.Failure("Tag already exist");
+            }
+
             var model = new ShelveType
             {
                 ShelfId = Guid.NewGuid(),
                 ShelfTag = request.ShelveType.ShelfTag
             };
 
-            _context.ShelveTypes.Add(model);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.CreateAsync(model); ;
 
             if (!result) return Result<Unit>.Failure("Fail to create Shelve Type");
 

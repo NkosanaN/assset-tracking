@@ -1,9 +1,9 @@
-﻿using Application.Core;
-using Application.ItemEmployeeAssignments.Contracts;
-using AutoMapper;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
+using Application.ItemEmployeeAssignments.Dto;
 using Domain;
+using Domain.Constants;
 using MediatR;
-using Persistence;
 
 namespace Application.ItemEmployeeAssignments;
 
@@ -19,7 +19,8 @@ public class Create
     //https://referbruv.com/blog/working-with-stored-procedures-in-aspnet-core-ef-core/
     //http://www.binaryintellect.net/articles/8304a21d-1711-426c-9791-90fc17cd3331.aspx
     public class Command : IRequest<Result<Unit>>
-    { public ItemEmployeeAssignmentRequest ItemEmployeeAssignment { get; set; }
+    {
+        public ItemEmployeeAssignmentRequest? ItemEmployeeAssignment { get; set; }
     }
 
     //public class CommandValidator : AbstractValidator<Command>
@@ -33,53 +34,65 @@ public class Create
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+        private readonly IItemEmployeeAssignmentRepository _context;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(IItemEmployeeAssignmentRepository context)
         {
             _context = context;
-            _mapper = mapper;
         }
-
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
+            //Todo
+            //put more validation eg cop 
+            //how many times a single user has requested this item => for miss use kind of vibe
+            //check user level for explosive item(s)
+            //how many item(s) has this user taken but not returned show Msg
+            //
+            //Item History in form of Report 
+            //
+            //Idea(s) 
+            //to add multiple stores transfer for moving-tracking item in multiple store if isn't available in store A
+            //
+            //Missing
+            //Excel import file 
+            //Provide default layout to match our model
+
+            var r1 = await _context
+                .CompareIssuerIdAndReceiver(request.ItemEmployeeAssignment!.IssuerById,
+                request.ItemEmployeeAssignment.ReceiverById);
+
+            if (r1)
+            {
+                const string msg = ResponseMessageCodes.IssuerDenied;
+                var errorDescription = ResponseMessageCodes.ErrorDictionary[msg];
+                return Result<Unit>.Failure(errorDescription);
+            }
+
+
+            //var r2 = await _context
+            //        .CheckHowManyTimesReceiverHasTakenOutItemWithOutReturn(request.ItemEmployeeAssignment.ReceiverById);
+
+            //if (!r2.Item1) return Result<Unit>.Failure(r2.Item2);
+
             var employeeAssignment = new ItemEmployeeAssignment
             {
                 AssigmentId = Guid.NewGuid(),
-                IssuerById = request.ItemEmployeeAssignment.IssuerById,
+                IssuerById = request.ItemEmployeeAssignment!.IssuerById,
                 ReceiverById = request.ItemEmployeeAssignment.ReceiverById,
                 ItemId = request.ItemEmployeeAssignment.ItemId,
-                IssueSignature = request.ItemEmployeeAssignment.IssueSignature,
-                ReceiverSignature = request.ItemEmployeeAssignment.ReceiverSignature,
+                IssueSignature = "N/A",
+                ReceiverSignature = "N/A",
                 DateTaken = request.ItemEmployeeAssignment.DateTaken,// add controls to check date 
                 IsReturned = false
             };
 
-            _context.ItemEmployeeAssignments.Add(employeeAssignment);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.CreateAsync(employeeAssignment);
 
             if (!result) return Result<Unit>.Failure("Fail to Assign Item Employee");
 
             return Result<Unit>.Success(Unit.Value);
         }
 
-        #region uselater
-
-        //var model = _mapper.Map<ItemEmployeeAssignment>(request.ItemEmployeeAssignment);   
-        //private async Task<bool> Validate(Guid Assigment_Id)
-        //{
-        //    bool isValid = false;
-        //    var item = await _context.ItemEmployeeAssignments
-        //        .FirstOrDefaultAsync(x =>
-        //            x.ItemId == Assigment_Id);
-
-        //    if (item == null) return isValid;
-
-        //}
-
-        #endregion
     }
 }
 

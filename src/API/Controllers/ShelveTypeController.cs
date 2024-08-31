@@ -5,13 +5,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class ShelveTypesController : BaseApiController
+public class ShelveTypeController : BaseApiController
 {
     [HttpGet]
     public async Task<IActionResult> GetShelveTypes([FromQuery] PagingParams param)
     {
         return HandlerPagedResult(await Mediator.Send(new List.Query { Params = param }));
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> DetailsShelveTypes(Guid id)
+    {
+        return HandlerResult(await Mediator.Send(new Details.Query { ShelfId = id }));
+    }
+    
     [HttpPost]
     public async Task<IActionResult> CreateShelveTypes(ShelveType dept)
     {
@@ -22,7 +28,7 @@ public class ShelveTypesController : BaseApiController
     public async Task<IActionResult> EditShelveTypes(Guid id, ShelveType shelve)
     {
         shelve.ShelfId = id;
-        return HandlerResult(await Mediator.Send(new Edit.Command { shelvetype = shelve }));
+        return HandlerResult(await Mediator.Send(new Edit.Command { ShelveType = shelve }));
     }
 
     [HttpDelete("{id}")]

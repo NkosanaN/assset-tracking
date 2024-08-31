@@ -1,6 +1,6 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
-using Persistence;
 
 namespace Application.Departments;
 
@@ -16,22 +16,20 @@ public class Delete
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IDepartmentRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(IDepartmentRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var depart = await _context.Departments.FindAsync(request.Id);
+            var depart = await _context.GetByIdAsync(request.Id);
 
             if (depart is null) return null!;
 
-            _context.Remove(depart);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.DeleteAsync(depart);
 
             if (!result) return Result<Unit>.Failure("Failed to delete the Department");
 

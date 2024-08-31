@@ -1,6 +1,5 @@
 ﻿using Application.Core;
 using Application.Suppliers;
-using Application.Suppliers.Contracts;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +13,23 @@ public class SupplierController : BaseApiController
         return HandlerPagedResult(await Mediator.Send(new List.Query { Params = param }));
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateSupplier(SupplierRequest sup)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> DetailSupplier(Guid id)
     {
-        return HandlerResult(await Mediator.Send(new Create.Command { SupplierRequest = sup }));
+        return HandlerResult(await Mediator.Send(new Details.Query { SupplierId = id}));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateSupplier(SupplierDto sup)
+    {
+        return HandlerResult(await Mediator.Send(new Create.Command { SupplierDto = sup }));
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditSupplier(Guid id, Supplier sup)
+    public async Task<IActionResult> EditSupplier(Guid id, Supplier supplier)
     {
-        sup.SupplierId = id;
-        return HandlerResult(await Mediator.Send(new Edit.Command { supplier = sup }));
+        supplier.SupplierId = id;
+        return HandlerResult(await Mediator.Send(new Edit.Command { Supplier = supplier }));
     }
 
     [HttpDelete("{id}")]

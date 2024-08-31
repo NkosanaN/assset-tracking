@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-public class ItemsController : BaseApiController
+public class ItemController : BaseApiController
 {
     [HttpGet]
     public async Task<IActionResult> GetItems([FromQuery] PagingParams param)
@@ -31,6 +31,13 @@ public class ItemsController : BaseApiController
     {
         item.ItemId = id;
         return HandlerResult(await Mediator.Send(new Edit.Command { Item = item }));
+    }
+
+
+    [HttpPut("{id}/BookRepairItem")]
+    public async Task<IActionResult> BookRepairItem(Guid id, Item item)
+    {
+        return HandlerResult(await Mediator.Send(new BookRepair.Command {Item = item}));
     }
 
     [HttpDelete("{id}")]

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: item-transfer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: item-transfer
+  template:
+    metadata:
+      name: item-transfer
+      labels:
+        app: item-transfer
+    spec:
+      containers:
+      - name: item-transfer
+        image: nkosanan/assettrackingsys
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - name: http-web-api 
+          containerPort: 80          
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://+:80
+
+---
+# Path: K8s\service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: item-transfer-service
+spec:
+  selector:
+    app: item-transfer
+  ports:
+  - name: http-web-api
+    port: 80  # <-- this is the port exposed by the service
+    targetPort: http-web-api  # <-- this must match the port exposed by the container
+  # ports:
+  # - protocol: TCP
+  #   port: 8080  # <-- this is the port exposed by the service
+  #   targetPort: 80  # <-- this must match the port exposed by the container
+  type: LoadBalancer

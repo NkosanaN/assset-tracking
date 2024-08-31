@@ -7,12 +7,14 @@ namespace Domain
      * This model is design to hold User data 
      * A)  FK => UserPhoto
      */
-    public class AppUser : IdentityUser
+    public class AppUser : IdentityUser         
     {
         public string DisplayName { get; set; } = string.Empty;
         public string? AddressLine1 { get; set; } = string.Empty;
         public string? AddressLine2 { get; set; }
-      //  public Guid ActivationCode { get; set; }
+        public string Firstname { get; set; } = string.Empty;
+        public string Lastname { get; set; } = string.Empty;
+        //  public Guid ActivationCode { get; set; }
         public ICollection<UserPhoto> UserPhotos { get; set; } = new List<UserPhoto>();
 
         //[InverseProperty("Issuer")]

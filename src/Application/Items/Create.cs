@@ -2,9 +2,7 @@
 using MediatR;
 using Domain;
 using FluentValidation;
-using Persistence;
-using Application.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Application.Contracts.Persistence;
 
 namespace Application.Items;
 
@@ -28,10 +26,10 @@ public class Create
 
     public class Handler : IRequestHandler<Command , Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IItemRepository _context;
         private readonly IUserAccessor _userAccessor;
 
-        public Handler(DataContext context, IUserAccessor userAccessor)
+        public Handler(IItemRepository context, IUserAccessor userAccessor)
         {
             _context = context;
             _userAccessor = userAccessor;
@@ -53,11 +51,32 @@ public class Create
             ////will remove this part just for test now!!
             //request.Item.ItemsTrackings.Add(itemtransfer);
 
-            _context.Items.Add(request.Item);
 
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var exist = await _context.IsItemNameUnique(request.Item.Name) == false;
 
-            if (!result) return Result<Unit>.Failure("Fail to create Item");
+            if (exist)
+            {
+                return Result<Unit>.Failure("Item Name already exist");
+            }
+
+            var item = new Item
+            {
+                ItemId = Guid.NewGuid(),
+                Name = request.Item.Name,
+                Description = request.Item.Description,
+                Serialno = request.Item.Serialno,
+                ItemTag = request.Item.ItemTag,
+                Cost = request.Item.Cost,
+                Qty = request.Item.Qty,
+                DatePurchased = request.Item.DatePurchased,
+                DueforRepair = false,
+                ShelfId = request.Item.ShelfId,
+                CreatedById = request.Item.CreatedById
+            };
+
+            var data = await _context.CreateAsync(item);
+
+            if (!data) return Result<Unit>.Failure("Fail to create Item");
       
             //Unit.Value is the same as return nothing as Command don't return anything
 

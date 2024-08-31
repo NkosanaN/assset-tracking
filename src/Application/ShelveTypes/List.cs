@@ -1,8 +1,7 @@
-﻿using Application.Core;
-using AutoMapper;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using Domain;
 using MediatR;
-using Persistence;
 
 namespace Application.ShelveTypes;
 
@@ -10,26 +9,24 @@ public class List
 {
     public class Query : IRequest<Result<PagedList<ShelveType>>>
     {
-        public PagingParams Params { get; set; }
+        public PagingParams? Params { get; set; }
     }
 
     public class Handler : IRequestHandler<Query, Result<PagedList<ShelveType>>>
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+        private readonly IShelveRepository _context;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(IShelveRepository context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Result<PagedList<ShelveType>>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var query = _context.ShelveTypes.AsQueryable();
+            var query = await _context.GetAllShelveType();
 
             return Result<PagedList<ShelveType>>.Success(
-                await PagedList<ShelveType>.CreateAsync(query, request.Params.PageNumber,
+                await PagedList<ShelveType>.CreateAsync(query, request.Params!.PageNumber,
                     request.Params.PageSize));
         }
     }

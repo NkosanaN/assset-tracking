@@ -1,10 +1,9 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using AutoMapper;
 using Domain;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace Application.ItemEmployeeAssignments;
 
@@ -28,24 +27,16 @@ public class Edit
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
-        public Handler(DataContext context, IMapper mapper)
+        private readonly IItemEmployeeAssignmentRepository _context;
+        public Handler(IItemEmployeeAssignmentRepository context, IMapper mapper)
         {
             _context = context;
-            _mapper = mapper;
         }
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             //this mapping doesn't work yet  
             //will map this manual 
-            var itemtransfer =
-                 await _context.ItemEmployeeAssignments.AsQueryable()
-                     //.Include(c => c.Item)
-                     //.Include(c => c.IssuerBy)
-                     //.Include(c => c.ReceiverBy)
-                     .FirstOrDefaultAsync(c =>
-                         c.AssigmentId == request.ItemEmployeeAssignment.AssigmentId, cancellationToken);
+            var itemtransfer = await _context.GetItemEmployeeAssignmentById(request.ItemEmployeeAssignment.AssigmentId);
 
             if (itemtransfer is null) return null!;
 
@@ -60,7 +51,7 @@ public class Edit
             itemtransfer.ReasonForNotReturn = request.ItemEmployeeAssignment.ReasonForNotReturn;
             itemtransfer.IsReturned = request.ItemEmployeeAssignment.IsReturned;
 
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.UpdateAsync(itemtransfer);
 
             if (!result) return Result<Unit>.Failure("Failed to update Item Employee Assignment");
 

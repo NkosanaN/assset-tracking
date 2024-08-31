@@ -1,7 +1,6 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
-using Persistence;
-
 namespace Application.Items;
 
 public class Delete
@@ -16,22 +15,20 @@ public class Delete
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IItemRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(IItemRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var item = await _context.Items.FindAsync(request.Id);
+            var item = await _context.GetByIdAsync(request.Id);
 
             if (item is null) return null!;
 
-            _context.Remove(item);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.DeleteAsync(item);
 
             if (!result) return Result<Unit>.Failure("Failed to delete the Item");
 

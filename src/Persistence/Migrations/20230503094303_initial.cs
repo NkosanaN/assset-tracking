@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AzureDb1 : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,6 +89,20 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tblitemimage", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbSupplier",
+                columns: table => new
+                {
+                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    SupplierName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SupplierDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BookingDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbSupplier", x => x.SupplierId);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,6 +244,7 @@ namespace Persistence.Migrations
                     Cost = table.Column<float>(type: "real", nullable: false),
                     Qty = table.Column<float>(type: "real", nullable: false),
                     DatePurchased = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DueforRepair = table.Column<bool>(type: "bit", nullable: false),
                     ShelfId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -309,7 +324,7 @@ namespace Persistence.Migrations
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tbltransferhistory_tblitem_ItemById",
                         column: x => x.ItemById,
@@ -430,6 +445,9 @@ namespace Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbluserphoto");
+
+            migrationBuilder.DropTable(
+                name: "tbSupplier");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -1,8 +1,7 @@
-﻿using Application.Core;
-using AutoMapper;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
 using Domain;
-using Persistence;
 
 namespace Application.Departments;
 
@@ -13,38 +12,33 @@ public class Edit
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public Department department { get; set; }
+        public Department? Department { get; set; }
     }
     
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
-        private readonly IMapper _mapper;
+        private readonly IDepartmentRepository _context;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(IDepartmentRepository context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var depart = await _context.Departments.FindAsync(request.department.DepartmentId);
+            var depart = await _context.GetByIdAsync(request.Department!.DepartmentId);
 
             if (depart is null) return null!;
 
-            depart.DepartmentName = request.department.DepartmentName;
-            depart.Description = request.department.Description;
+            depart.DepartmentName = request.Department.DepartmentName;
+            depart.Description = request.Department.Description;
 
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.UpdateAsync(depart);
 
             if (!result) return Result<Unit>.Failure("Failed to update Department");
 
             //Unit.Value is the same as return nothing as Command don't return anything
             return Result<Unit>.Success(Unit.Value);
-
-
         }
-
     }
 }

@@ -1,9 +1,8 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using AutoMapper;
 using MediatR;
 using Domain;
-using Persistence;
-
 namespace Application.ShelveTypes;
 
 public class Edit
@@ -13,33 +12,33 @@ public class Edit
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public ShelveType shelvetype { get; set; }
+        public ShelveType? ShelveType { get; set; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly IShelveRepository _context;
 
-        public Handler(DataContext context, IMapper mapper)
+        public Handler(IShelveRepository context, IMapper mapper)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var shelve = await _context.ShelveTypes.FindAsync(request.shelvetype.ShelfId);
+            var shelve = await _context.GetByIdAsync(request.ShelveType!.ShelfId);
 
             if (shelve is null) return null!;
 
-            shelve.ShelfTag = request.shelvetype.ShelfTag;
+            shelve.ShelfTag = request.ShelveType.ShelfTag;
 
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.CreateAsync(shelve);
 
             if (!result) return Result<Unit>.Failure("Failed to update ShelveType");
 
             //Unit.Value is the same as return nothing as Command don't return anything
             return Result<Unit>.Success(Unit.Value);
-            
+
         }
     }
 }

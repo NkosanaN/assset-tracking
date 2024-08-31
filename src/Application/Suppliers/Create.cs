@@ -1,10 +1,8 @@
-﻿using Application.Core;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using MediatR;
 using FluentValidation;
-using Persistence;
 using Application.Supplier;
-using Application.Suppliers.Contracts;
-
 namespace Application.Suppliers;
 
 public class Create
@@ -14,38 +12,43 @@ public class Create
      */
     public class Command : IRequest<Result<Unit>>
     {
-        public SupplierRequest SupplierRequest { get; set; } = new();
+        public SupplierDto SupplierDto { get; set; } = new();
     }
 
     public class CommandValidator : AbstractValidator<Command>
     {
         public CommandValidator()
         {
-            RuleFor(x => x.SupplierRequest).SetValidator(new SupplierValidator());
+            RuleFor(x => x.SupplierDto).SetValidator(new SupplierValidator());
         }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
-        private readonly DataContext _context;
+        private readonly ISupplierRepository _context;
 
-        public Handler(DataContext context)
+        public Handler(ISupplierRepository context)
         {
             _context = context;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
+            var exist = await _context.IsSupplierNameUnique(request.SupplierDto.SupplierName) == false;
+
+            if (exist)
+            {
+                return Result<Unit>.Failure("Supplier Name already exist. Please use another name");
+            }
+
             var model = new Domain.Supplier
             {
                 SupplierId = Guid.NewGuid(),
-                SupplierName = request.SupplierRequest.SupplierName,
-                SupplierDescription = request.SupplierRequest.SupplierDescription,
+                SupplierName = request.SupplierDto.SupplierName,
+                SupplierDescription = request.SupplierDto.SupplierDescription,
             };
 
-            _context.Suppliers.Add(model);
-
-            var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+            var result = await _context.CreateAsync(model);
 
             if (!result) return Result<Unit>.Failure("Fail to create Supplier");
 
