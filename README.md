@@ -15,7 +15,7 @@ A mining project that is used to track assets transfers.
  * * ```kubectl port-forward asset-tracking 8083:80```
 
  ### API Flow ###
- * import the postman collection which also includes Environments Variable
+ * Import the postman collection which also includes Environments Variable
  * Register User
  * Login
  * Create a Shelf 
