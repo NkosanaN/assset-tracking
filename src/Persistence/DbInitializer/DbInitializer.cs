@@ -13,12 +13,12 @@ public class DbInitializer : IDbInitializer
     {
         try
         {
-            //var createDB = _db.Database.EnsureCreated();
+            var createDB = _db.Database.EnsureCreated();
 
-            //if (createDB is false)
-            //{
-            //    throw new Exception("Fail to create database");
-            //}
+            if (createDB is false)
+            {
+                throw new Exception("Fail to create database");
+            }
 
             //if (_db.Database.GetPendingMigrations().Any())
             //{

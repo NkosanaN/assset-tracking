@@ -1,0 +1,1390 @@
+{
+	"info": {
+		"_postman_id": "bddc9230-1877-4e7f-b875-9db799de8754",
+		"name": "asset-tracking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5763902"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"if (data.token) \r",
+									"{\r",
+									"    pm.environment.set(\"gentoken\",\"Bearer \" + data.token);\r",
+									"    pm.globals.set(\"gentoken\",\"Bearer \" + data.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"3{{user_Name}}\",\r\n  \"password\": \"{{pass_Word}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/Account/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"Account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterUser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"if (data.token) \r",
+									"{\r",
+									"    pm.environment.set(\"gentoken\",\"Bearer \" + data.token);\r",
+									"    pm.globals.set(\"gentoken\",\"Bearer \" + data.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"3{{user_Name}}\",\r\n    \"password\": \"{{pass_Word}}\",\r\n    \"displayName\": \"Sam\",\r\n    \"username\": \"{{user_Name}}3\",\r\n    \"firstname\": \"Samson-{{random}}-\",\r\n    \"lastname\": \"Lu\",\r\n    \"addressLine1\": \"string_1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/Account/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"Account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "GetItems",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlNhbTFAZ21haWwuY29tIiwibmFtZWlkIjoiOGJkMWJhODYtMjhlOC00NGFlLWEzYWEtMmZlZWRjN2NmZTMzIiwiZW1haWwiOiJTYW0xQGdtYWlsLmNvbSIsIm5iZiI6MTcxMjIxOTI1NiwiZXhwIjoxNzEyODI0MDU2LCJpYXQiOjE3MTIyMTkyNTZ9.Xws0TXTjCBoIRfxutlMEyBhUb81JkBnbu9RBpgby9w4"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8083/api/Item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"Item"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetItems By Paging",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/api/Items?pageNumber=1&pageSize=1",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"api",
+								"Items"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetItem",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik10aGVtYnUiLCJuYW1laWQiOiJmMGNmNjEwMy00Yzc5LTRmYjEtOWRhMC0yNTRkZDc0YTY5ZGQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJuYmYiOjE2NzY3MzE1MTYsImV4cCI6MTY3NzMzNjMxNiwiaWF0IjoxNjc2NzMxNTE2fQ.pwTUqYNEMfmMmRqSUAo-ol2wHkr-giUnJ96rNGKHLZ0",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"64f462f6-445d-4ed5-5ba8-08db15a28227\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/Item/0273b9d0-ea59-4c01-197b-08db4bd4eb43",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"Item",
+								"0273b9d0-ea59-4c01-197b-08db4bd4eb43"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditItem",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"timeStamp\": \"{{currentdate}}\",\r\n  \"name\": \"Test0\",\r\n  \"description\": \"Test \",\r\n  \"serialno\": \"2222-nn-uuu\",\r\n  \"itemTag\": \"2222-nn-uuu\",\r\n  \"cost\": 5,\r\n  \"qty\": 2,\r\n  \"datePurchased\": \"{{currentdate}}\",\r\n  \"shelfId\": \"2A463B5E-EA76-44D5-AD1E-8EECF318BB8F\",\r\n  \"dueforRepair\":false,\r\n  \"createdById\":\"72901290-6252-4b60-b8fe-c07d9d73029c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5293/api/Item/0273B9D0-EA59-4C01-197B-08DB4BD4EB43",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Item",
+								"0273B9D0-EA59-4C01-197B-08DB4BD4EB43"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateItem",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');\r",
+									"\r",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"timeStamp\": \"{{currentdate}}\",\r\n  \"name\": \"Test0\",\r\n  \"description\": \"Test \",\r\n  \"serialno\": \"2222-nn-uuu\",\r\n  \"itemTag\": \"2222-nn-uuu\",\r\n  \"cost\": 5,\r\n  \"qty\": 2,\r\n  \"datePurchased\": \"{{currentdate}}\",\r\n  \"shelfId\": \"0942245E-70A2-485C-8BEF-4EE87D9D2382\",\r\n  \"dueforRepair\":false,\r\n  \"createdById\":\"bb3cfe17-829f-4829-8b4b-3f4851dbe83c\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5293/Item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"Item"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserPhotos",
+			"item": [
+				{
+					"name": "AddUserPhoto",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik10aGVtYnUiLCJuYW1laWQiOiJmMGNmNjEwMy00Yzc5LTRmYjEtOWRhMC0yNTRkZDc0YTY5ZGQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJuYmYiOjE2NzY2MzYwOTIsImV4cCI6MTY3NzI0MDg5MiwiaWF0IjoxNjc2NjM2MDkyfQ.MAhOjj-X_Rj8GHDRN2nvtrWch06EbzYLlMCdMtDZrBk",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "File",
+									"type": "file",
+									"src": "/C:/Users/NkosanaN/OneDrive - Derivco (Pty) Limited/Desktop/white.jpg"
+								},
+								{
+									"key": "con",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/UserPhoto",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"UserPhoto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete UserPhoto",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik10aGVtYnUiLCJuYW1laWQiOiJmMGNmNjEwMy00Yzc5LTRmYjEtOWRhMC0yNTRkZDc0YTY5ZGQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJuYmYiOjE2NzY2MzYwOTIsImV4cCI6MTY3NzI0MDg5MiwiaWF0IjoxNjc2NjM2MDkyfQ.MAhOjj-X_Rj8GHDRN2nvtrWch06EbzYLlMCdMtDZrBk",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "image/jpeg",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "File",
+									"type": "file",
+									"src": "/C:/Users/NkosanaN/OneDrive - Derivco (Pty) Limited/Desktop/white.jpg"
+								},
+								{
+									"key": "con",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/UserPhoto/h2b6lqletlrzsuikib4r",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"UserPhoto",
+								"h2b6lqletlrzsuikib4r"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RequestImgFromCloudinary",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "File",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://res.cloudinary.com/",
+							"protocol": "https",
+							"host": [
+								"res",
+								"cloudinary",
+								"com"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "GetProfile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik10aGVtYnUiLCJuYW1laWQiOiJmMGNmNjEwMy00Yzc5LTRmYjEtOWRhMC0yNTRkZDc0YTY5ZGQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJuYmYiOjE2NzY2MzYwOTIsImV4cCI6MTY3NzI0MDg5MiwiaWF0IjoxNjc2NjM2MDkyfQ.MAhOjj-X_Rj8GHDRN2nvtrWch06EbzYLlMCdMtDZrBk",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"Mthembu\" \r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/Profiles/Mthembu",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"Profiles",
+								"Mthembu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ItemEmployeeAssignment",
+			"item": [
+				{
+					"name": "GetItemEmpAssign",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/ItemEmployeeAssignment/65216a5d-346f-4c9d-9191-31a3563101b9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"ItemEmployeeAssignment",
+								"65216a5d-346f-4c9d-9191-31a3563101b9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteItemEmpAssign",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/ItemEmployeeAssignment/3FA85F64-5717-4562-B3FC-2C963F66AFA6",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"ItemEmployeeAssignment",
+								"3FA85F64-5717-4562-B3FC-2C963F66AFA6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetItemsEmpAssign",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/ItemEmployeeAssignment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"ItemEmployeeAssignment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateItemsEmpAssign",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');\r",
+									"\r",
+									"pm.environment.set('currentdate', moment().format((\"YYYY-MM-DD\")));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"issuerById\": \"2a209f8e-bf27-4774-aaef-a08f9f67f7a8\",\r\n    \"receiverById\": \"2a209f8e-bf27-4774-aaef-a08f9f67f7a8\",\r\n    \"itemId\": \"DE879BA6-E6F8-4997-D5DD-08DCC9225CE3\",\r\n    \"dateTaken\": \"{{currentdate}}\",\r\n    \"issueSignature\": \"n/a\",\r\n    \"receiverSignature\": \"n/a\",\r\n    \"dateReturned\": null,\r\n    \"returnedCondition\": null,\r\n    \"resonForNotReturn\": null,\r\n    \"isReturned\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/api/ItemEmployeeAssignment",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"api",
+								"ItemEmployeeAssignment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditItemsEmpAssign",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');\r",
+									"var fdate = new Date();\r",
+									"fdate.setDate(fdate.getDate()+3);\r",
+									"futuredate = moment(fdate);\r",
+									"pm.environment.set(\"futureDate\", futuredate.format(\"YYYYMMDD\"));\r",
+									"\r",
+									"\r",
+									"//console.log(futuredate)\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"itemEmployeeCode\": \"8FB4758A-B7E2-4B1E-8232-08DB1659C71D\",\r\n    \"IssuerById\": \"16ec6726-0520-4913-ab7e-822d84d2c459\",\r\n    \"ReceiverById\": \"a752d59c-9ca5-4e7a-b92b-481cfb0c39bc\",\r\n    \"itemId\": \"64F462F6-445D-4ED5-5BA8-08DB15A28227\",\r\n    \"dateTaken\": \"2023-02-23T00:00:00\",\r\n    \"issueSignature\": \"signMr\",\r\n    \"receiverSignature\": \"n/a\",\r\n    \"dateReturned\": \"2023-02-26T14:24:43.498\",\r\n    \"returnedCondition\": \"Please bring Ladder 123\",\r\n    \"resonForNotReturn\": \"n/a\",\r\n    \"isReturned\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/ItemEmployeeAssignment/8FB4758A-B7E2-4B1E-8232-08DB1659C71D",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"ItemEmployeeAssignment",
+								"8FB4758A-B7E2-4B1E-8232-08DB1659C71D"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "GetDepartments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/Department",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Department"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateDepartment",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlNhbUBnbWFpbC5jb20iLCJuYW1laWQiOiJmNGFiMzYzOC0yYTRlLTRlYTMtOTA5Ny04YzJjZTMwNzlmYzEiLCJlbWFpbCI6IlNhbUBnbWFpbC5jb20iLCJuYmYiOjE3MTE1NDA2NDEsImV4cCI6MTcxMjE0NTQ0MSwiaWF0IjoxNzExNTQwNjQxfQ.VHJ211NTHiJIea8x_LWxodlymyb2lt0I-dnzeV5GEjE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"departmentName\": \"Open Cast\",\r\n  \"description\": \"Mining machine\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUri}}/api/Department",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"api",
+								"Department"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDepartment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\r\n        \"departmentName\": \"Open Cast X2 \",\r\n        \"description\": \"Mining machine X2\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5293/api/Department/48f6c8ac-d593-4f8d-abf6-df8652c4be81",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Department",
+								"48f6c8ac-d593-4f8d-abf6-df8652c4be81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteDepartment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/Department/48f6c8ac-d593-4f8d-abf6-df8652c4be81",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Department",
+								"48f6c8ac-d593-4f8d-abf6-df8652c4be81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/Department/7eeb3652-edc2-4397-b8c8-36b0268d5b7e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Department",
+								"7eeb3652-edc2-4397-b8c8-36b0268d5b7e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ShelveTypes",
+			"item": [
+				{
+					"name": "GetShelveTypes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUri}}/api/ShelveType/4D4296B8-BAC7-4D87-BBA8-8F3A06DDA6B0",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"api",
+								"ShelveType",
+								"4D4296B8-BAC7-4D87-BBA8-8F3A06DDA6B0"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateShelveType",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);\r",
+									"\r",
+									"pm.environment.set(\"shelfID\", data.shelfId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"shelfTag\": \"xxxx-xxx-xxx123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5293/ShelveType",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"ShelveType"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteShelveType",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/ShelveTypes/30de887b-52d6-4c31-8a39-5abbdc720cd0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"ShelveTypes",
+								"30de887b-52d6-4c31-8a39-5abbdc720cd0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditShelveType",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"shelfTag\": \"26E1547D-F27B-49E3-A3AB-7FF223FE7445\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/ShelveTypes/26E1547D-F27B-49E3-A3AB-7FF223FE7445",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"ShelveTypes",
+								"26E1547D-F27B-49E3-A3AB-7FF223FE7445"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/ShelveType/2a463b5e-ea76-44d5-ad1e-8eecf318bb8f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"ShelveType",
+								"2a463b5e-ea76-44d5-ad1e-8eecf318bb8f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Supplier",
+			"item": [
+				{
+					"name": "GetSuppiers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/Supplier",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Supplier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSupplier",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"supplierName\": \"dell\",\r\n  \"supplierDescription\": \"D5 Gaming laptop\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUri}}/api/Supplier",
+							"host": [
+								"{{baseUri}}"
+							],
+							"path": [
+								"api",
+								"Supplier"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateSuppier",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"supplierName\": \"dell\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5293/api/Supplier/62A05246-D47E-4FCF-AD80-A1A4EEF5A558",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Supplier",
+								"62A05246-D47E-4FCF-AD80-A1A4EEF5A558"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSupplier",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/Supplier/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Supplier",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/api/Supplier/62A05246-D47E-4FCF-AD80-A1A4EEF5A558",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"Supplier",
+								"62A05246-D47E-4FCF-AD80-A1A4EEF5A558"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ImportExcel",
+			"item": [
+				{
+					"name": "ReadExcelFile",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"type": "file",
+									"src": "/C:/Users/NkosanaN/Downloads/Book1.xlsx"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5293/api/ReadFile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"api",
+								"ReadFile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "GetUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{gentoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5293/User",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5293",
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUri",
+			"value": "https://localhost:5293",
+			"type": "string"
+		},
+		{
+			"key": "user_Name",
+			"value": "Sam1@gmail.com",
+			"type": "string"
+		},
+		{
+			"key": "pass_Word",
+			"value": "458@NkO",
+			"type": "string"
+		}
+	]
+}
