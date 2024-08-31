@@ -4,7 +4,6 @@ using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
-
 public class ItemController : BaseApiController
 {
     [HttpGet]

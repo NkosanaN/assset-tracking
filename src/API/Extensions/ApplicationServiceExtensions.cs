@@ -1,5 +1,5 @@
-﻿using Application.Core;
-using Application.Interfaces;
+﻿using Application.Contracts.Persistence;
+using Application.Core;
 using Application.Items;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -15,18 +15,13 @@ namespace API.Extensions;
 
 public static class ApplicationServiceExtensions
 {
-    public static IServiceCollection ConfigureApiServices(this IServiceCollection services,
-        IConfiguration config)
+    public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Asset-Tracking API", Version = "v1" });
         });
-
-        services.AddDbContext<DataContext>(opt =>
-           opt.UseSqlServer(config.GetConnectionString("DefaultConnection"))
-        );
 
         services.AddCors(opt =>
         {
@@ -41,17 +36,16 @@ public static class ApplicationServiceExtensions
                 });
         });
 
-        services.AddScoped<IDbInitializer, DbInitializer>();
+        //services.AddScoped<IDbInitializer, DbInitializer>();
         services.AddMediatR(typeof(List));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         services.AddFluentValidationAutoValidation();
         services.AddValidatorsFromAssemblyContaining<Create>();
         services.AddHttpContextAccessor();
         services.AddScoped<IUserAccessor, UserAccessor>();
-        services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+        //services.AddScoped<IPhotoAccessor, PhotoAccessor>();
         //services.AddScoped<IEmailSender, EmailSender>();
-        services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
-
+        //services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
         //services.AddSingleton(new EmailService("smtp.example.com", 587, "username", "password"));
         return services;
     }

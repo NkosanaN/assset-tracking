@@ -6,17 +6,16 @@ using Persistence.DbInitializer;
 using Persistence.Repositories;
 
 namespace Persistence;
-
 public static class PersistenceServicesRegistration
 {
-    public static IServiceCollection ConfigurePersistenceService(this IServiceCollection srv, IConfiguration config)
+    public static IServiceCollection ConfigurePersistenceService(this IServiceCollection srv, 
+        IConfiguration config)
     {
         srv.AddDbContext<DataContext>(opt =>
             opt.UseSqlServer(config.GetConnectionString("DefaultConnection"))
         );
 
         srv.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
         srv.AddScoped<IItemEmployeeAssignmentRepository, ItemEmployeeAssignmentRepository>();
         srv.AddScoped<IDepartmentRepository, DepartmentRepository>();
         srv.AddScoped<IItemRepository, ItemRepository>();

@@ -1,7 +1,5 @@
-﻿namespace Persistence.DbInitializer
+﻿namespace Persistence.DbInitializer;
+public interface IDbInitializer
 {
-    public interface IDbInitializer
-    {
-        void Initialize();
-    }
+    void Initialize();
 }

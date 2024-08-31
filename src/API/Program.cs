@@ -1,11 +1,10 @@
 using API.Extensions;
 using API.Middleware;
-using Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Persistence.DbInitializer;
 using Serilog;
-//using Persistence;
+using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +16,9 @@ builder.Services.AddControllers(opt =>
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddIdentityService(builder.Configuration);
+builder.Services.ConfigureApplicationServices();
+builder.Services.ConfigureIdentityService(builder.Configuration);
+builder.Services.ConfigurePersistenceService(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
