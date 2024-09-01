@@ -3,13 +3,9 @@ using Application.Core;
 using Application.Items;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Infrastructure.Photos;
 using Infrastructure.Security;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Persistence;
-using Persistence.DbInitializer;
 
 namespace API.Extensions;
 

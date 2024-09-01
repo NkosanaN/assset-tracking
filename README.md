@@ -3,7 +3,7 @@ A mining project that is used to track assets transfers.
 
 ###  Pre-requisite  ###
   * Docker Desktop with Kubernetes being enabled
-  * Minicube
+  * optional use Minicube
   * optional install K9s 
 
 ### To spin up the backend api project Run ###
