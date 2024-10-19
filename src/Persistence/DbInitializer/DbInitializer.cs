@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Persistence.DbInitializer;
+﻿namespace Persistence.DbInitializer;
 
 public class DbInitializer : IDbInitializer
 {
@@ -13,17 +11,18 @@ public class DbInitializer : IDbInitializer
     {
         try
         {
-            var createDB = _db.Database.EnsureCreated();
+            var dbExists = _db.Database.CanConnect();
 
-            if (createDB is false)
+            if (!dbExists)
             {
-                throw new Exception("Fail to create database");
+                var createDB = _db.Database.EnsureCreated();
+
+                if (createDB)
+                {
+                    //Seed(_db);
+                }
             }
 
-            //if (_db.Database.GetPendingMigrations().Any())
-            //{
-            //    _db.Database.Migrate();
-            //}
         }
         catch (Exception e)
         {
@@ -31,6 +30,10 @@ public class DbInitializer : IDbInitializer
             throw;
         }
         return;
+    }
+    public static void Seed(DataContext context)
+    {
+
     }
 }
 

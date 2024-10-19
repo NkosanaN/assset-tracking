@@ -3,7 +3,6 @@ using MediatR;
 using Domain;
 using FluentValidation;
 using Application.Contracts.Persistence;
-using AutoMapper;
 
 namespace Application.Items;
 
@@ -31,17 +30,15 @@ public class BookRepair
     public class Handler : IRequestHandler<Command , Result<Unit>>
     {
         private readonly IItemRepository _context;
-        private readonly IUserAccessor _userAccessor;
         public Handler(IItemRepository context, IUserAccessor userAccessor)
         {
             _context = context;
-            _userAccessor = userAccessor;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
 
-            var data = await _context.BookRepair(request.Item.ItemId, request.Item.Description);
+            var data = await _context.BookRepair(request.Item!.ItemId, request.Item.Description);
 
             if (!data) return Result<Unit>.Failure("Fail to create booking");
       

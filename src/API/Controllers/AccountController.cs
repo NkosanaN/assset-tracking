@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Security.Claims;
 
 namespace API.Controllers;
@@ -25,6 +26,7 @@ public class AccountController : ControllerBase
     }
     [AllowAnonymous]
     [HttpPost("login")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserDto))]
     public async Task<ActionResult<UserDto>> Login(LoginDto login)
     {
         //var user = await _userManager.FindByEmailAsync(login.Email);
@@ -44,6 +46,7 @@ public class AccountController : ControllerBase
     }
     [AllowAnonymous]
     [HttpPost("register")]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(UserDto))]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))

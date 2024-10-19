@@ -47,7 +47,7 @@ public class ReadFileController : ControllerBase
 
             string savePath = Path.Combine(dirPath, dataFileName);
 
-            await using (FileStream stream = new FileStream(savePath, FileMode.Create))
+            await using (FileStream stream = new (savePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
@@ -73,8 +73,8 @@ public class ReadFileController : ControllerBase
 
                         Item item = new()
                         {
-                            Name = serviceDetails.Rows[i][0].ToString(),
-                            Description = serviceDetails.Rows[i][1].ToString(),
+                            Name = serviceDetails.Rows[i][0].ToString()!,
+                            Description = serviceDetails.Rows[i][1].ToString()!,
                             Qty = Convert.ToInt64(serviceDetails.Rows[i][2].ToString()),
                             DueforRepair = dueforrepair
                         };
