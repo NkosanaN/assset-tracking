@@ -8,7 +8,7 @@ label:
 container:
   name: asset-tracking
   pullPolicy: IfNotPresent
-  image: nkosanan/asset-api
+  image: nkosanan/asset-tracking
   tag: latest
   port: 80
 replicas: 1
