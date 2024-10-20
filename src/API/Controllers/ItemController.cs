@@ -2,7 +2,6 @@
 using Application.Items;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API.Controllers;
 public class ItemController : BaseApiController
@@ -33,9 +32,7 @@ public class ItemController : BaseApiController
         return HandlerResult(await Mediator.Send(new Edit.Command { Item = item }));
     }
 
-
     [HttpPut("{id}/BookRepairItem")]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Employee))]
     public async Task<IActionResult> BookRepairItem(Guid id, Item item)
     {
         return HandlerResult(await Mediator.Send(new BookRepair.Command {Item = item}));
