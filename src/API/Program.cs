@@ -44,8 +44,8 @@ app.UseSwaggerUI();
 
 app.UseCors("CorsPolicy");
 
-//app.UseHttpsRedirection();
 SeedDatabase();
+app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

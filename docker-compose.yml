@@ -10,25 +10,24 @@ services:
         test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P S3cur3P@ssW0rd! -Q 'SELECT 1'"]
         interval: 10s  # Check every 10 seconds
         timeout: 5s    # Timeout after 5 seconds
-        retries: 10     # Retry up to 10 times
+        retries: 3     # Retry up to 10 times
         start_period: 30s  # Start the health check after 30 seconds
       volumes:
         - sql_data:/var/opt/mssql
     
-    api: 
+    asset-tracking-api: 
       image : nkosanan/asset-tracking #your-docker-repo/your-aspnet-core-api
       build:
         context: .
         dockerfile: Dockerfile
       environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8000
+      #- ASPNETCORE_HTTP_PORTS=8080
       - ConnectionStrings__DefaultConnection=Server=db;Database=ItemManagementSystem;User Id=sa;Password=S3cur3P@ssW0rd!;TrustServerCertificate=True
       ports:
-          - "8000:8000"
+          - "8080:80"
       depends_on:
          db:
           condition: service_healthy  # Only start when the db service is healthy
-
 volumes:
   sql_data:      
