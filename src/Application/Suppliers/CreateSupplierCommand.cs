@@ -2,7 +2,7 @@ using Application.Contracts.Persistence;
 using Application.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-//using FluentValidation;
+using FluentValidation;
 
 namespace Application.Suppliers;
 
@@ -14,13 +14,13 @@ public class CreateSupplierCommand : IRequest<Result<Unit>>
 	public SupplierDto SupplierDto { get; set; } = new();
 }
 
-//public class CommandValidator : AbstractValidator<CreateSupplierCommand>
-//{
-//	public CommandValidator()
-//	{
-//		RuleFor(x => x.SupplierDto).SetValidator(new SupplierValidator());
-//	}
-//}
+public class CommandValidator : AbstractValidator<CreateSupplierCommand>
+{
+	public CommandValidator()
+	{
+		RuleFor(x => x.SupplierDto).SetValidator(new SupplierValidator());
+	}
+}
 
 public class CreateSupplierCommandHandler(IDataContext context)
 	: IRequestHandler<CreateSupplierCommand, Result<Unit>>
@@ -29,13 +29,13 @@ public class CreateSupplierCommandHandler(IDataContext context)
 
 	public async Task<Result<Unit>> Handle(CreateSupplierCommand request, CancellationToken cancellationToken)
 	{
-		//bool exist = await _context.Suppliers.AnyAsync(c => c.SupplierName == request.SupplierDto.SupplierName,
-		//	cancellationToken: cancellationToken);
+		bool exist = await _context.Suppliers.AnyAsync(c => c.SupplierName == request.SupplierDto.SupplierName,
+			cancellationToken: cancellationToken);
 
-		//if (exist)
-		//{
-		//	return Result<Unit>.Failure("Supplier Name already exist. Please use another name");
-		//}
+		if (exist)
+		{
+			return Result<Unit>.Failure("Supplier Name already exist. Please use another name");
+		}
 
 		var model = new Domain.Supplier
 		{
