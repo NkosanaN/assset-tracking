@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
@@ -10,19 +10,19 @@ namespace Domain;
 [Table("tbltransferhistory")]
 public class Transferhistory
 {
-    [Key] 
-    public Guid HistoryId { get; set; }
-    public string TransferredFrom { get; set; } = string.Empty;
-    public string TransferredTo { get; set; } = string.Empty;
+	[Key]
+	public Guid HistoryId { get; set; }
+	public string TransferredFrom { get; set; } = string.Empty;
+	public string TransferredTo { get; set; } = string.Empty;
 
-    [ForeignKey("Item")]
-    public Guid ItemById { get; set; }
-    public Item? Item { get; set; }
-    public DateTime DateTransfer { get; set; } = DateTime.Now;
-    public string Remarks { get; set; } = string.Empty;
+	[ForeignKey("Item")]
+	public Guid ItemById { get; set; }
+	public Item? Item { get; set; }
+	public DateTime DateTransfer { get; set; } = DateTime.Now;
+	public string Remarks { get; set; } = string.Empty;
 
-    [ForeignKey("CreatedBy")]
-    public string CreatedById { get; set; }
-    public AppUser? CreatedBy { get; set; }
+	[ForeignKey("CreatedBy")]
+	public string CreatedById { get; set; }
+	public AppUser? CreatedBy { get; set; }
 }
 

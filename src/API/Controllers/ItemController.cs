@@ -1,4 +1,4 @@
-﻿using Application.Core;
+using Application.Core;
 using Application.Items;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -6,42 +6,41 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 public class ItemController : BaseApiController
 {
-    [HttpGet]
-    public async Task<IActionResult> GetItems([FromQuery] PagingParams param)
-    {
-        //return HandlerResult(await Mediator.Send(new List.Query { Params = param }));
-        return HandlerPagedResult(await Mediator.Send(new List.Query { Params = param }));
-    }
+	[HttpGet]
+	public async Task<IActionResult> GetItemsAsync([FromQuery] PagingParams param)
+	{
+		return HandlerPagedResult(await Mediator.Send(new GetItemQuery { Params = param }));
+	}
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetItem(Guid id)
-    {
-        return HandlerResult(await Mediator.Send(new Details.Query { Id = id }));
-    }
+	[HttpGet("{id}")]
+	public async Task<IActionResult> GetItemAsync(Guid id)
+	{
+		return HandlerResult(await Mediator.Send(new GetItemDetailsQuery { Id = id }));
+	}
 
-    [HttpPost]
-    public async Task<IActionResult> CreateItem(Item item)
-    {
-        return HandlerResult(await Mediator.Send(new Create.Command { Item = item }));
-    }
+	[HttpPost]
+	public async Task<IActionResult> CreateItemAsync(Item item)
+	{
+		return HandlerResult(await Mediator.Send(new CreateItemCommand { Item = item }));
+	}
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> EditItem(Guid id, Item item)
-    {
-        item.ItemId = id;
-        return HandlerResult(await Mediator.Send(new Edit.Command { Item = item }));
-    }
+	[HttpPut("{id}")]
+	public async Task<IActionResult> EditItemAsync(Guid id, Item item)
+	{
+		item.ItemId = id;
+		return HandlerResult(await Mediator.Send(new EditItemCommand { Item = item }));
+	}
 
-    [HttpPut("{id}/BookRepairItem")]
-    public async Task<IActionResult> BookRepairItem(Guid id, Item item)
-    {
-        return HandlerResult(await Mediator.Send(new BookRepair.Command {Item = item}));
-    }
+	[HttpPut("{id}/BookRepairItem")]
+	public async Task<IActionResult> BookRepairItemAsync(Item item)
+	{
+		return HandlerResult(await Mediator.Send(new BookRepairCommand { Item = item }));
+	}
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteItem(Guid id)
-    {
-        return HandlerResult(await Mediator.Send(new Delete.Command { Id = id }));
-    }
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteItemAsync(Guid id)
+	{
+		return HandlerResult(await Mediator.Send(new DeleteItemCommand { Id = id }));
+	}
 }
 

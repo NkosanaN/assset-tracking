@@ -1,9 +1,9 @@
-﻿namespace Application.Contracts.Persistence;
+namespace Application.Contracts.Persistence;
 
-public interface ISupplierRepository : IGenericRepository<Domain.Supplier>
+public interface ISupplierRepository
 {
-    Task<bool> IsSupplierNameUnique(string name);
+	Task<bool> IsSupplierNameUnique(string name);
 
-    Task<IQueryable<Domain.Supplier>> GetAllSupplier();
+	Task<IQueryable<Domain.Supplier>> GetAllSupplier();
 }
 

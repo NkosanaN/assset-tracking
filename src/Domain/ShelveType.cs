@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
@@ -9,9 +9,9 @@ namespace Domain;
 //[Table("tblshelvetype")]
 public class ShelveType
 {
-    [Key]
-    public Guid ShelfId { get; set; }
-    public string ShelfTag { get; set;} = string.Empty;
+	[Key]
+	public Guid ShelfId { get; set; }
+	public string ShelfTag { get; set; } = string.Empty;
 }
 
 

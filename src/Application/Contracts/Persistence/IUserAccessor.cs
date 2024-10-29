@@ -1,5 +1,5 @@
-﻿namespace Application.Contracts.Persistence;
+namespace Application.Contracts.Persistence;
 public interface IUserAccessor
 {
-    string GetUsername();
+	string GetUsername();
 }

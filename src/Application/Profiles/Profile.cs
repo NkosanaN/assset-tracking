@@ -1,13 +1,12 @@
-﻿using Domain;
+using Domain;
 
-namespace Application.Profiles
+namespace Application.Profiles;
+
+public class Profile
 {
-    public class Profile
-    {
-        public string Username { get; set; }
-        public string DisplayName { get; set; }
-        public string Bio { get; set; }
-        public string Image { get; set; }
-        public ICollection<UserPhoto>  Photos { get; set; }
-    }
+	public required string Username { get; set; }
+	public required string DisplayName { get; set; }
+	public required string Bio { get; set; }
+	public required string Image { get; set; }
+	public required ICollection<UserPhoto> Photos { get; set; }
 }

@@ -1,10 +1,10 @@
-﻿namespace Application.Core;
+namespace Application.Core;
 
 public class RoleConstant
 {
-    public const string Role_User_Ind = "Individual";
-    public const string Role_User_Admin = "Admin";
-    public const string Role_User_Employee = "Employee";
-    public const string Role_User_Forman = "Forman";
+	public const string RoleUserInd = "Individual";
+	public const string RoleUserAdmin = "Admin";
+	public const string RoleUserEmployee = "Employee";
+	public const string RoleUserForman = "Forman";
 
 }

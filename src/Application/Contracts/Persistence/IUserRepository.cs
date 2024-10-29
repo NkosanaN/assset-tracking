@@ -1,10 +1,8 @@
-﻿using Application.User;
 using Domain;
 
-namespace Application.Contracts.Persistence
+namespace Application.Contracts.Persistence;
+
+public interface IUserRepository : IGenericRepository<AppUser>
 {
-    public interface IUserRepository : IGenericRepository<AppUser>
-    {
-        Task<IQueryable<AppUser>> GetAllUser();
-    }
+	Task<IQueryable<AppUser>> GetAllUser();
 }

@@ -1,4 +1,4 @@
-﻿using Application.Core;
+using Application.Core;
 using Application.Suppliers;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -7,35 +7,35 @@ namespace API.Controllers;
 
 public class SupplierController : BaseApiController
 {
-    [HttpGet]
-    public async Task<IActionResult> GetSuppliers([FromQuery] PagingParams param)
-    {
-        return HandlerPagedResult(await Mediator.Send(new List.Query { Params = param }));
-    }
+	[HttpGet]
+	public async Task<IActionResult> GetSuppliersAsync([FromQuery] PagingParams param)
+	{
+		return HandlerPagedResult(await Mediator.Send(new GetSupplierQuery { Params = param }));
+	}
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> DetailSupplier(Guid id)
-    {
-        return HandlerResult(await Mediator.Send(new Details.Query { SupplierId = id}));
-    }
+	[HttpGet("{id}")]
+	public async Task<IActionResult> DetailSupplierAsync(Guid id)
+	{
+		return HandlerResult(await Mediator.Send(new GetSupplierDetailQuery { SupplierId = id }));
+	}
 
-    [HttpPost]
-    public async Task<IActionResult> CreateSupplier(SupplierDto sup)
-    {
-        return HandlerResult(await Mediator.Send(new Create.Command { SupplierDto = sup }));
-    }
+	[HttpPost]
+	public async Task<IActionResult> CreateSupplierAsync(SupplierDto sup)
+	{
+		return HandlerResult(await Mediator.Send(new CreateSupplierCommand { SupplierDto = sup }));
+	}
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> EditSupplier(Guid id, Supplier supplier)
-    {
-        supplier.SupplierId = id;
-        return HandlerResult(await Mediator.Send(new Edit.Command { Supplier = supplier }));
-    }
+	[HttpPut("{id}")]
+	public async Task<IActionResult> EditSupplierAsync(Guid id, Supplier supplier)
+	{
+		supplier.SupplierId = id;
+		return HandlerResult(await Mediator.Send(new EditSupplierCommand { Supplier = supplier }));
+	}
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteSupplier(Guid id)
-    {
-        return HandlerResult(await Mediator.Send(new Delete.Command { Id = id }));
-    }
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> DeleteSupplierAsync(Guid id)
+	{
+		return HandlerResult(await Mediator.Send(new DeleteSupplierCommand { Id = id }));
+	}
 }
 

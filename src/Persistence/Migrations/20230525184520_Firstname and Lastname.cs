@@ -1,40 +1,40 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Persistence.Migrations
 {
-    /// <inheritdoc />
-    public partial class FirstnameandLastname : Migration
-    {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "Firstname",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+	/// <inheritdoc />
+	public partial class FirstnameandLastname : Migration
+	{
+		/// <inheritdoc />
+		protected override void Up(MigrationBuilder migrationBuilder)
+		{
+			migrationBuilder.AddColumn<string>(
+					name: "Firstname",
+					table: "AspNetUsers",
+					type: "nvarchar(max)",
+					nullable: false,
+					defaultValue: "");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Lastname",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-        }
+			migrationBuilder.AddColumn<string>(
+					name: "Lastname",
+					table: "AspNetUsers",
+					type: "nvarchar(max)",
+					nullable: false,
+					defaultValue: "");
+		}
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "Firstname",
-                table: "AspNetUsers");
+		/// <inheritdoc />
+		protected override void Down(MigrationBuilder migrationBuilder)
+		{
+			migrationBuilder.DropColumn(
+					name: "Firstname",
+					table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "Lastname",
-                table: "AspNetUsers");
-        }
-    }
+			migrationBuilder.DropColumn(
+					name: "Lastname",
+					table: "AspNetUsers");
+		}
+	}
 }

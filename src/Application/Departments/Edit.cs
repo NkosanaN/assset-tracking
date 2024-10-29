@@ -1,44 +1,50 @@
-﻿using Application.Contracts.Persistence;
-using Application.Core;
-using MediatR;
-using Domain;
+//using Application.Contracts.Persistence;
+//using Application.Core;
+//using MediatR;
+//using Domain;
 
-namespace Application.Departments;
+//namespace Application.Departments;
 
-public class Edit
-{
-    /*
-     * Command don't return any thing
-     */
-    public class Command : IRequest<Result<Unit>>
-    {
-        public Department? Department { get; set; }
-    }
-    
-    public class Handler : IRequestHandler<Command, Result<Unit>>
-    {
-        private readonly IDepartmentRepository _context;
+//public class Edit
+//{
+//	/*
+//	 * Command don't return any thing
+//	 */
+//	public class Command : IRequest<Result<Unit>>
+//	{
+//		public Department? Department { get; set; }
+//	}
 
-        public Handler(IDepartmentRepository context)
-        {
-            _context = context;
-        }
+//	public class Handler : IRequestHandler<Command, Result<Unit>>
+//	{
+//		private readonly IDepartmentRepository _context;
 
-        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
-        {
-            var depart = await _context.GetByIdAsync(request.Department!.DepartmentId);
+//		public Handler(IDepartmentRepository context)
+//		{
+//			_context = context;
+//		}
 
-            if (depart is null) return null!;
+//		public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+//		{
+//			var depart = await _context.GetByIdAsync(request.Department!.DepartmentId);
 
-            depart.DepartmentName = request.Department.DepartmentName;
-            depart.Description = request.Department.Description;
+//			if (depart is null)
+//			{
+//				return null!;
+//			}
 
-            var result = await _context.UpdateAsync(depart);
+//			depart.DepartmentName = request.Department.DepartmentName;
+//			depart.Description = request.Department.Description;
 
-            if (!result) return Result<Unit>.Failure("Failed to update Department");
+//			bool result = await _context.UpdateAsync(depart);
 
-            //Unit.Value is the same as return nothing as Command don't return anything
-            return Result<Unit>.Success(Unit.Value);
-        }
-    }
-}
+//			if (!result)
+//			{
+//				return Result<Unit>.Failure("Failed to update Department");
+//			}
+
+//			//Unit.Value is the same as return nothing as Command don't return anything
+//			return Result<Unit>.Success(Unit.Value);
+//		}
+//	}
+//}

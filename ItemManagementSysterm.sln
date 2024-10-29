@@ -21,7 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementSystem.T1.Tests", "test\T1\ItemManagementSystem.T1.Tests\ItemManagementSystem.T1.Tests.csproj", "{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ItemManagementSystem.Tests.Unity", "test\Unity\ItemManagementSystem.Tests.Unity\ItemManagementSystem.Tests.Unity.csproj", "{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementSystem.Tests.Integration", "test\Integration\ItemManagementSystem.Tests.Integration\ItemManagementSystem.Tests.Integration.csproj", "{842F4651-EF1F-460B-8DA6-E2997AD6E8A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemManagementSystem.Tests.Integrationx", "test\Integrationx\ItemManagementSystem.Tests.Integrationx\ItemManagementSystem.Tests.Integrationx.csproj", "{6A48A14A-DF49-4BBF-8F91-092D3D25643C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +57,14 @@ Global
 		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB15AF60-D97B-4CB6-885E-CC7A387D5AF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{842F4651-EF1F-460B-8DA6-E2997AD6E8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{842F4651-EF1F-460B-8DA6-E2997AD6E8A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{842F4651-EF1F-460B-8DA6-E2997AD6E8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{842F4651-EF1F-460B-8DA6-E2997AD6E8A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A48A14A-DF49-4BBF-8F91-092D3D25643C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A48A14A-DF49-4BBF-8F91-092D3D25643C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A48A14A-DF49-4BBF-8F91-092D3D25643C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A48A14A-DF49-4BBF-8F91-092D3D25643C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
