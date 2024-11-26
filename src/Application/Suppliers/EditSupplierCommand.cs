@@ -13,7 +13,7 @@ public class EditSupplierCommand : IRequest<Result<Unit>>
 {
 	public Domain.Supplier? Supplier { get; set; }
 }
-public class DeleteSupplierHandler(IDataContext context) : IRequestHandler<EditSupplierCommand, Result<Unit>>
+public class EditSupplierHandler(IDataContext context) : IRequestHandler<EditSupplierCommand, Result<Unit>>
 {
 	private readonly IDataContext _context = context;
 
@@ -33,7 +33,7 @@ public class DeleteSupplierHandler(IDataContext context) : IRequestHandler<EditS
 
 		int result = await _context.SaveChangeAsync(cancellationToken);
 
-		if (result > 0)
+		if (result == 0)
 		{
 			return Result<Unit>.Failure("Failed to update Supplier");
 		}

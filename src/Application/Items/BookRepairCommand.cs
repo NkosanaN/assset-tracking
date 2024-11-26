@@ -26,14 +26,9 @@ public class CommandValidator : AbstractValidator<BookRepairCommand>
 	//}
 }
 
-public class BookRepairHandler : IRequestHandler<BookRepairCommand, Result<Unit>>
+public class BookRepairHandler(IDataContext context) : IRequestHandler<BookRepairCommand, Result<Unit>>
 {
-	private readonly IDataContext _context;
-
-	public BookRepairHandler(IDataContext context)
-	{
-		_context = context;
-	}
+	private readonly IDataContext _context = context;
 
 	public async Task<Result<Unit>> Handle(BookRepairCommand request, CancellationToken cancellationToken)
 	{

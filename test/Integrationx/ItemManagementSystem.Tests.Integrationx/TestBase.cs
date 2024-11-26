@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using System.Text.Json;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,4 +19,10 @@ public abstract class TestBase : IClassFixture<TestWebApplicationFactory>
 		Context = _scope.ServiceProvider.GetRequiredService<DataContext>();
 		Context.Database.MigrateAsync();
 	}
+	internal static JsonSerializerOptions TestSerializerOptions => new JsonSerializerOptions
+	{
+		DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+		PropertyNameCaseInsensitive = true
+	};
+
 }

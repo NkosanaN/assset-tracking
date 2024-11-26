@@ -11,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers(opt =>
 {
-	var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-	opt.Filters.Add(new AuthorizeFilter(policy));
+	//var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+	//opt.Filters.Add(new AuthorizeFilter(policy));
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -52,14 +52,10 @@ app.MapControllers();
 app.UseSerilogRequestLogging();
 
 app.Run();
-
-
-
 void SeedDatabase()
 {
 	using var scope = app!.Services.CreateScope();
 	var services = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
 	services.Initialize();
 }
-
 public partial class Program { }

@@ -12,25 +12,22 @@ public class GetItemQuery : IRequest<Result<PagedList<ItemDto>>>
 	public PagingParams? Params { get; set; }
 }
 
-public class GetItemHandler : IRequestHandler<GetItemQuery, Result<PagedList<ItemDto>>>
+public class GetItemHandler(IDataContext context, IMapper mapper)
+	: IRequestHandler<GetItemQuery, Result<PagedList<ItemDto>>>
 {
-	private readonly IDataContext _context;
-	private readonly IMapper _mapper;
-
-	public GetItemHandler(IDataContext context, IMapper mapper)
-	{
-		_context = context;
-		_mapper = mapper;
-	}
+	private readonly IDataContext _context = context;
+	private readonly IMapper _mapper = mapper;
 
 	public async Task<Result<PagedList<ItemDto>>> Handle(GetItemQuery request, CancellationToken cancellationToken)
 	{
-		var list = _context.Items.AsQueryable().AsNoTracking() // .Include(c=>c.ShelveBy)
-				.ProjectTo<ItemDto>(_mapper.ConfigurationProvider).AsQueryable();
+		var list = _context.Items
+			.AsQueryable()
+			.AsNoTracking()
+			.ProjectTo<ItemDto>(_mapper.ConfigurationProvider)
+			.AsQueryable();
 
 		return Result<PagedList<ItemDto>>.Success(
 				await PagedList<ItemDto>.CreateAsync(list, request.Params!.PageNumber,
 						request.Params.PageSize));
 	}
-
 }

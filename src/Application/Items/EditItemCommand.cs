@@ -23,14 +23,9 @@ public class EditItemCommand : IRequest<Result<Unit>>
 //    }
 //}
 
-public class EditItemHandler : IRequestHandler<EditItemCommand, Result<Unit>>
+public class EditItemHandler(IDataContext context) : IRequestHandler<EditItemCommand, Result<Unit>>
 {
-	private readonly IDataContext _context;
-
-	public EditItemHandler(IDataContext context)
-	{
-		_context = context;
-	}
+	private readonly IDataContext _context = context;
 
 	public async Task<Result<Unit>> Handle(EditItemCommand request, CancellationToken cancellationToken)
 	{

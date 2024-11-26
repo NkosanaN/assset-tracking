@@ -1,0 +1,7 @@
+namespace ItemManagementSystem.Tests.Integrationx.Helpers;
+
+internal static class TestRunSettings
+{
+	public static string Token => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjRTYW0yQGdtYWlsLmNvbSIsIm5hbWVpZCI6ImM0MzA2ODgzLWFjOTItNGEzNy05ZTc3LTFhZTBiNTFhNTg5OSIsImVtYWlsIjoiNFNhbTJAZ21haWwuY29tIiwibmJmIjoxNzMwMjA0MzgzLCJleHAiOjE3MzA4MDkxODMsImlhdCI6MTczMDIwNDM4M30.VVL4PYRS7IzOYSF9CCx5BNDHbh7exgUGSkdbcjwU1ms";
+
+}

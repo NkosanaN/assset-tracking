@@ -11,5 +11,7 @@ public class Supplier
 	public string SupplierName { get; set; } = string.Empty;
 	public string SupplierDescription { get; set; } = string.Empty;
 	public DateTime BookingDate { get; set; } = DateTime.Now;
+	public DateTime CreatedAt { get; set; }
+
 }
 
